@@ -1,6 +1,7 @@
 import React from 'react';
 import { TrendingDown, Sparkles, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { MLPriceBenchmarkResult } from '../../types/index.ts';
+import { useTheme } from '../../context/ThemeContext.tsx';
 
 interface MLPriceBenchmarkVisualizerProps {
   benchmark: MLPriceBenchmarkResult;
@@ -11,6 +12,7 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
   benchmark,
   compact = false,
 }) => {
+  const { theme } = useTheme();
   const {
     itemName,
     shopperBudgetValue,
@@ -31,19 +33,29 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
 
   if (compact) {
     return (
-      <div className="flex items-center justify-between p-3 rounded-2xl bg-[#08120D] border border-[#16281E] text-xs">
+      <div className={`flex items-center justify-between p-3 rounded-2xl border text-xs ${
+        theme === 'dark'
+          ? 'bg-[#08120D] border-[#16281E]'
+          : 'bg-slate-50 border-slate-200'
+      }`}>
         <div className="flex items-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-[#D4F938]" />
-          <span className="text-white font-semibold">{itemName}</span>
+          <Sparkles className={`w-3.5 h-3.5 ${theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'}`} />
+          <span className={`font-semibold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>{itemName}</span>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-slate-400">
-            Supermarket: <span className="line-through text-slate-500 font-mono">GH₵ {accraRetailBenchmark.toFixed(2)}</span>
+            Supermarket: <span className="line-through text-slate-400 font-mono">GH₵ {accraRetailBenchmark.toFixed(2)}</span>
           </span>
-          <span className="font-black text-[#D4F938] font-mono">
+          <span className={`font-black font-mono ${
+            theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
+          }`}>
             GH₵ {storeOfferValue.toFixed(2)}
           </span>
-          <span className="px-2 py-0.5 rounded-full bg-[#182C20] text-[#D4F938] border border-[#234330] font-bold text-[10px]">
+          <span className={`px-2 py-0.5 rounded-full border font-bold text-[10px] ${
+            theme === 'dark'
+              ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
+              : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+          }`}>
             -{supermarketVariancePercent}%
           </span>
         </div>
@@ -53,19 +65,35 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
 
   return (
     <div
-      className="p-5 rounded-3xl bg-[#08120D] border border-[#16281E] space-y-4"
+      className={`p-5 rounded-3xl border space-y-4 ${
+        theme === 'dark'
+          ? 'bg-[#08120D] border-[#16281E]'
+          : 'bg-slate-50 border-slate-200/90'
+      }`}
       data-testid="ml-benchmark-container"
     >
       {/* Header with Confidence */}
-      <div className="flex items-center justify-between pb-3 border-b border-[#1A2F24]">
+      <div className={`flex items-center justify-between pb-3 border-b ${
+        theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-200'
+      }`}>
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-xl bg-[#182C20] text-[#D4F938] border border-[#234330] flex items-center justify-center">
+          <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
+            theme === 'dark'
+              ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
+              : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+          }`}>
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <h4 className={`text-xs font-bold flex items-center gap-2 ${
+              theme === 'dark' ? 'text-white' : 'text-slate-900'
+            }`}>
               <span>Supermarket Price Benchmark</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#182C20] text-[#D4F938] border border-[#234330]">
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+                theme === 'dark'
+                  ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
+                  : 'bg-emerald-50 text-emerald-800 border-emerald-200'
+              }`}>
                 1.18x Accra Retail Markup
               </span>
             </h4>
@@ -76,12 +104,14 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
         </div>
 
         <div className="flex flex-col items-end">
-          <div className="flex items-center gap-1 text-xs font-bold text-[#D4F938]">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#D4F938]" />
+          <div className={`flex items-center gap-1 text-xs font-bold ${
+            theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
+          }`}>
+            <CheckCircle2 className="w-3.5 h-3.5" />
             <span data-testid="ml-confidence-score">{mlConfidenceScore}% ML Confidence</span>
           </div>
           <span className="text-[10px] text-slate-400">
-            Volatility: <span className="font-bold text-white">{volatilityIndex}</span>
+            Volatility: <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>{volatilityIndex}</span>
           </span>
         </div>
       </div>
@@ -92,14 +122,18 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
         <div>
           <div className="flex justify-between text-xs mb-1 text-slate-400">
             <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2 h-2 rounded-full bg-slate-500 inline-block" />
+              <span className="w-2 h-2 rounded-full bg-slate-400 inline-block" />
               Accra Supermarket Retail Benchmark (Shoprite/Melcom)
             </span>
-            <span className="font-mono font-bold text-slate-300">GH₵ {accraRetailBenchmark.toFixed(2)}</span>
+            <span className={`font-mono font-bold ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+              GH₵ {accraRetailBenchmark.toFixed(2)}
+            </span>
           </div>
-          <div className="w-full bg-[#12221A] rounded-full h-2.5 overflow-hidden">
+          <div className={`w-full rounded-full h-2.5 overflow-hidden ${
+            theme === 'dark' ? 'bg-[#12221A]' : 'bg-slate-200'
+          }`}>
             <div
-              className="bg-slate-500 h-full rounded-full transition-all duration-500"
+              className="bg-slate-400 h-full rounded-full transition-all duration-500"
               style={{ width: `${retailWidthPercent}%` }}
               data-testid="retail-benchmark-bar"
             />
@@ -110,14 +144,16 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
         <div>
           <div className="flex justify-between text-xs mb-1 text-slate-400">
             <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2 h-2 rounded-full bg-[#F59E0B] inline-block" />
+              <span className="w-2 h-2 rounded-full bg-amber-500 inline-block" />
               Shopper Target Budget
             </span>
-            <span className="font-mono font-bold text-[#F59E0B]">GH₵ {shopperBudgetValue.toFixed(2)}</span>
+            <span className="font-mono font-bold text-amber-600">GH₵ {shopperBudgetValue.toFixed(2)}</span>
           </div>
-          <div className="w-full bg-[#12221A] rounded-full h-2.5 overflow-hidden">
+          <div className={`w-full rounded-full h-2.5 overflow-hidden ${
+            theme === 'dark' ? 'bg-[#12221A]' : 'bg-slate-200'
+          }`}>
             <div
-              className="bg-[#F59E0B] h-full rounded-full transition-all duration-500"
+              className="bg-amber-500 h-full rounded-full transition-all duration-500"
               style={{ width: `${shopperWidthPercent}%` }}
               data-testid="shopper-budget-bar"
             />
@@ -128,14 +164,24 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
         <div>
           <div className="flex justify-between text-xs mb-1 text-slate-400">
             <span className="flex items-center gap-1.5 text-[11px]">
-              <span className="w-2 h-2 rounded-full bg-[#D4F938] inline-block" />
+              <span className={`w-2 h-2 rounded-full inline-block ${
+                theme === 'dark' ? 'bg-[#D4F938]' : 'bg-emerald-600'
+              }`} />
               Store Merchant Reverse-Auction Bid
             </span>
-            <span className="font-mono font-bold text-[#D4F938]">GH₵ {storeOfferValue.toFixed(2)}</span>
+            <span className={`font-mono font-bold ${
+              theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
+            }`}>
+              GH₵ {storeOfferValue.toFixed(2)}
+            </span>
           </div>
-          <div className="w-full bg-[#12221A] rounded-full h-2.5 overflow-hidden">
+          <div className={`w-full rounded-full h-2.5 overflow-hidden ${
+            theme === 'dark' ? 'bg-[#12221A]' : 'bg-slate-200'
+          }`}>
             <div
-              className="bg-[#D4F938] h-full rounded-full transition-all duration-500"
+              className={`h-full rounded-full transition-all duration-500 ${
+                theme === 'dark' ? 'bg-[#D4F938]' : 'bg-emerald-600'
+              }`}
               style={{ width: `${storeWidthPercent}%` }}
               data-testid="store-offer-bar"
             />
@@ -144,16 +190,24 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
       </div>
 
       {/* Savings Callout */}
-      <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3 rounded-2xl bg-[#12241B] border border-[#234330]">
+      <div className={`pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-3 rounded-2xl border ${
+        theme === 'dark'
+          ? 'bg-[#12241B] border-[#234330]'
+          : 'bg-emerald-50 border-emerald-200'
+      }`}>
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded-lg bg-[#182C20] text-[#D4F938]">
+          <div className={`p-1 rounded-lg ${
+            theme === 'dark' ? 'bg-[#182C20] text-[#D4F938]' : 'bg-emerald-100 text-emerald-800'
+          }`}>
             <TrendingDown className="w-4 h-4" />
           </div>
           <div className="text-xs">
-            <span className="font-bold text-white">
+            <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
               Estimated Consumer Savings: <span>GH₵ {consumerSavingsGHS.toFixed(2)}</span>
             </span>{' '}
-            <span className="text-[#D4F938] font-bold">({supermarketVariancePercent}% below retail)</span>
+            <span className={`font-bold ${theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'}`}>
+              ({supermarketVariancePercent}% below retail)
+            </span>
             {recommendation && (
               <div className="text-[11px] text-slate-400 mt-0.5">{recommendation}</div>
             )}
@@ -161,7 +215,7 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
         </div>
 
         {volatilityIndex === 'High' && (
-          <div className="flex items-center gap-1 text-[10px] font-bold text-[#F59E0B] bg-[#251D10] px-2 py-0.5 rounded-full border border-[#40311B]">
+          <div className="flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
             <AlertTriangle className="w-3 h-3" />
             <span>High Perishable Fluctuation</span>
           </div>

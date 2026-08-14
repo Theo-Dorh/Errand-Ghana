@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MLPriceBenchmarkVisualizer } from '../components/ml/MLPriceBenchmarkVisualizer.tsx';
 import { MLPriceBenchmarkResult } from '../types/index.ts';
+import { ThemeProvider } from '../context/ThemeContext.tsx';
 
 describe('MLPriceBenchmarkVisualizer Component', () => {
   const mockBenchmark: MLPriceBenchmarkResult = {
@@ -17,7 +18,11 @@ describe('MLPriceBenchmarkVisualizer Component', () => {
   };
 
   it('renders benchmark comparison elements accurately', () => {
-    render(<MLPriceBenchmarkVisualizer benchmark={mockBenchmark} />);
+    render(
+      <ThemeProvider>
+        <MLPriceBenchmarkVisualizer benchmark={mockBenchmark} />
+      </ThemeProvider>
+    );
 
     expect(screen.getByTestId('ml-benchmark-container')).toBeInTheDocument();
     expect(screen.getByTestId('ml-confidence-score')).toHaveTextContent('94.8% ML Confidence');
@@ -28,7 +33,11 @@ describe('MLPriceBenchmarkVisualizer Component', () => {
   });
 
   it('calculates and displays consumer savings vs Accra supermarket markup', () => {
-    render(<MLPriceBenchmarkVisualizer benchmark={mockBenchmark} />);
+    render(
+      <ThemeProvider>
+        <MLPriceBenchmarkVisualizer benchmark={mockBenchmark} />
+      </ThemeProvider>
+    );
 
     expect(screen.getByText(/Estimated Consumer Savings:/i)).toBeInTheDocument();
     expect(screen.getByText('GH₵ 23.00')).toBeInTheDocument();
@@ -36,7 +45,11 @@ describe('MLPriceBenchmarkVisualizer Component', () => {
   });
 
   it('renders compact mode properly', () => {
-    render(<MLPriceBenchmarkVisualizer benchmark={mockBenchmark} compact={true} />);
+    render(
+      <ThemeProvider>
+        <MLPriceBenchmarkVisualizer benchmark={mockBenchmark} compact={true} />
+      </ThemeProvider>
+    );
 
     expect(screen.getByText('Navrongo Fresh Tomatoes')).toBeInTheDocument();
     expect(screen.getByText('GH₵ 95.00')).toBeInTheDocument();

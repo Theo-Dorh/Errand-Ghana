@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Order, DemandList } from '../../types/index.ts';
+import { useTheme } from '../../context/ThemeContext.tsx';
 import { useMarketplace } from '../../context/MarketplaceContext.tsx';
 import { EscrowReceiptModal } from '../receipt/EscrowReceiptModal.tsx';
 import {
@@ -20,6 +21,7 @@ interface ShopperOrderTrackerProps {
 }
 
 export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order, list }) => {
+  const { theme } = useTheme();
   const { commitAndReleasePayout, executeCompensatingRefund } = useMarketplace();
 
   const [showReceipt, setShowReceipt] = useState(false);
@@ -67,18 +69,24 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
   };
 
   return (
-    <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24]">
+    <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6">
       {/* Top Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#1A2F24]">
+      <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b ${
+        theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-200/80'
+      }`}>
         <div>
           <div className="flex items-center gap-2.5">
-            <h4 className="text-base sm:text-lg font-bold text-white">{order.list_title}</h4>
-            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+            <h4 className={`text-base sm:text-lg font-bold ${
+              theme === 'dark' ? 'text-white' : 'text-slate-900'
+            }`}>
+              {order.list_title}
+            </h4>
+            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
               isReleased
-                ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                 : isRefunded
-                ? 'bg-rose-950/50 text-rose-300 border border-rose-800/60'
-                : 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]'
+                ? theme === 'dark' ? 'bg-rose-950/50 text-rose-300 border border-rose-800/60' : 'bg-rose-100 text-rose-800 border-rose-200'
+                : theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]' : 'bg-amber-100 text-amber-800 border-amber-200'
             }`}>
               {isFunded && 'Safe Pay Locked'}
               {isInTransit && 'Rider In Transit'}
@@ -89,21 +97,27 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           </div>
 
           <div className="text-xs text-slate-400 mt-1 flex flex-wrap items-center gap-3">
-            <span>Store: <strong className="text-white">{order.store_name}</strong></span>
+            <span>Store: <strong className={theme === 'dark' ? 'text-white' : 'text-slate-900'}>{order.store_name}</strong></span>
             <span>•</span>
-            <span className="flex items-center gap-1 text-[#D4F938]">
+            <span className={`flex items-center gap-1 font-semibold ${
+              theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
+            }`}>
               <MapPin className="w-3.5 h-3.5" />
               {order.neighborhood}
             </span>
             <span>•</span>
-            <span>MoMo Ref: <strong className="font-mono text-slate-300">{order.momo_transaction_id}</strong></span>
+            <span>MoMo Ref: <strong className="font-mono text-slate-500">{order.momo_transaction_id}</strong></span>
           </div>
         </div>
 
         <div className="flex items-center gap-4">
           <button
             onClick={() => setShowReceipt(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-[#16291E] border border-[#234330] hover:bg-[#1D3527] text-[#D4F938] text-xs font-bold transition-colors"
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-colors ${
+              theme === 'dark'
+                ? 'bg-[#16291E] border-[#234330] hover:bg-[#1D3527] text-[#D4F938]'
+                : 'bg-emerald-50 border-emerald-200 hover:bg-emerald-100 text-emerald-800'
+            }`}
           >
             <Receipt className="w-4 h-4" />
             <span>Digital Receipt</span>
@@ -111,7 +125,9 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
 
           <div className="text-right">
             <span className="text-[10px] uppercase font-bold text-slate-400 block">Protected Amount</span>
-            <span className="text-lg sm:text-xl font-black text-white font-mono">
+            <span className={`text-lg sm:text-xl font-black font-mono ${
+              theme === 'dark' ? 'text-white' : 'text-slate-900'
+            }`}>
               GH₵ {order.total_amount.toFixed(2)}
             </span>
           </div>
@@ -119,18 +135,28 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
       </div>
 
       {statusFeedback && (
-        <div className="p-3.5 rounded-2xl bg-[#182C20] border border-[#234330] text-xs text-[#D4F938] flex items-center gap-2">
+        <div className={`p-3.5 rounded-2xl border text-xs flex items-center gap-2 ${
+          theme === 'dark'
+            ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
+            : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+        }`}>
           <Sparkles className="w-4 h-4 shrink-0" />
           <span>{statusFeedback}</span>
         </div>
       )}
 
       {/* 4-Step Visual Delivery Progress */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-[#08120D] border border-[#16281E] space-y-4">
-        <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+      <div className={`p-4 sm:p-6 rounded-2xl border space-y-4 ${
+        theme === 'dark' ? 'bg-[#08120D] border-[#16281E]' : 'bg-slate-50 border-slate-200'
+      }`}>
+        <div className={`flex items-center justify-between text-xs font-bold ${
+          theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+        }`}>
           <span>Order Fulfillment Progress</span>
-          <span className="text-[#D4F938] flex items-center gap-1">
-            <Clock className="w-3.5 h-3.5" />
+          <span className={`flex items-center gap-1 ${
+            theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
+          }`}>
+            <Clock className="w-3.5 h-3.5 text-amber-500" />
             <span>Estimated 30 - 45 mins</span>
           </span>
         </div>
@@ -139,8 +165,8 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           {/* Step 1: Locked */}
           <div className={`p-3 rounded-xl border space-y-1 ${
             isFunded || isInTransit || isDelivered || isReleased
-              ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
-              : 'bg-[#0E1A14] border-[#1A2F24] text-slate-500'
+              ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
+              : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
             <div className="text-[10px] font-mono font-bold uppercase">Step 1</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
@@ -153,8 +179,8 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           {/* Step 2: In Transit */}
           <div className={`p-3 rounded-xl border space-y-1 ${
             isInTransit || isDelivered || isReleased
-              ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
-              : 'bg-[#0E1A14] border-[#1A2F24] text-slate-500'
+              ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
+              : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
             <div className="text-[10px] font-mono font-bold uppercase">Step 2</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
@@ -167,8 +193,8 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           {/* Step 3: Arrived */}
           <div className={`p-3 rounded-xl border space-y-1 ${
             isDelivered || isReleased
-              ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
-              : 'bg-[#0E1A14] border-[#1A2F24] text-slate-500'
+              ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
+              : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
             <div className="text-[10px] font-mono font-bold uppercase">Step 3</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
@@ -181,8 +207,8 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           {/* Step 4: Released */}
           <div className={`p-3 rounded-xl border space-y-1 ${
             isReleased
-              ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
-              : 'bg-[#0E1A14] border-[#1A2F24] text-slate-500'
+              ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
+              : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
             <div className="text-[10px] font-mono font-bold uppercase">Step 4</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
@@ -194,37 +220,49 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
         </div>
       </div>
 
-      {/* Physical Goods Inspection & Payout Actions */}
+      {/* Doorstep Inspection & Payout Actions */}
       {!isReleased && !isRefunded && (
-        <div className="p-5 sm:p-6 rounded-2xl bg-[#08120D] border border-[#16281E] space-y-4">
+        <div className={`p-5 sm:p-6 rounded-2xl border space-y-4 ${
+          theme === 'dark' ? 'bg-[#08120D] border-[#16281E]' : 'bg-slate-50 border-slate-200'
+        }`}>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-[#D4F938]" />
+            <ShieldCheck className={`w-5 h-5 ${theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'}`} />
             <div>
-              <h5 className="text-xs font-bold text-white">Doorstep Quality Inspection Checklist</h5>
+              <h5 className={`text-xs font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                Doorstep Quality Inspection Checklist
+              </h5>
               <p className="text-[11px] text-slate-400">Verify items before authorizing final payment to vendor</p>
             </div>
           </div>
 
           {/* Inspection Checkboxes */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <label className="flex items-center gap-2.5 p-3 rounded-xl bg-[#0E1A14] border border-[#1A2F24] cursor-pointer hover:border-[#2D4C3A]">
+            <label className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer ${
+              theme === 'dark'
+                ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-300 hover:border-[#2D4C3A]'
+                : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
+            }`}>
               <input
                 type="checkbox"
                 checked={inspectedItems}
                 onChange={(e) => setInspectedItems(e.target.checked)}
-                className="w-4 h-4 rounded text-[#D4F938] focus:ring-[#D4F938] accent-[#D4F938]"
+                className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-600 accent-emerald-600"
               />
-              <span className="text-slate-300">All requested grocery items & quantities are present</span>
+              <span>All requested grocery items & quantities are present</span>
             </label>
 
-            <label className="flex items-center gap-2.5 p-3 rounded-xl bg-[#0E1A14] border border-[#1A2F24] cursor-pointer hover:border-[#2D4C3A]">
+            <label className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer ${
+              theme === 'dark'
+                ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-300 hover:border-[#2D4C3A]'
+                : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
+            }`}>
               <input
                 type="checkbox"
                 checked={freshnessOk}
                 onChange={(e) => setFreshnessOk(e.target.checked)}
-                className="w-4 h-4 rounded text-[#D4F938] focus:ring-[#D4F938] accent-[#D4F938]"
+                className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-600 accent-emerald-600"
               />
-              <span className="text-slate-300">Produce freshness, ripeness & packaging are in good order</span>
+              <span>Produce freshness, ripeness & packaging are in good order</span>
             </label>
           </div>
 
@@ -232,7 +270,11 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
             <button
               onClick={() => setShowDisputeModal(true)}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-800/60 text-xs font-bold transition-colors"
+              className={`w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-xs font-bold transition-colors ${
+                theme === 'dark'
+                  ? 'bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border-rose-800/60'
+                  : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border-rose-200'
+              }`}
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Report Issue / Request 100% Refund</span>
@@ -241,7 +283,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
             <button
               onClick={handleConfirmAndRelease}
               disabled={(!inspectedItems || !freshnessOk) && !isDelivered}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl btn-apex text-xs font-black shadow-lg shadow-[#D4F938]/15 disabled:opacity-40 transition-all"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl btn-apex text-xs font-black shadow-lg disabled:opacity-40 transition-all"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>{isProcessing ? 'Releasing Payout...' : `Confirm Delivery & Release GH₵ ${order.vendor_payout.toFixed(2)}`}</span>
@@ -261,35 +303,53 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
 
       {/* Modal: Dispute & Refund */}
       {showDisputeModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto">
-          <div className="relative w-full max-w-md bg-[#0E1A14] border border-[#1A2F24] rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl my-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
+          <div className={`relative w-full max-w-md border rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl my-8 ${
+            theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-white border-slate-200'
+          }`}>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-rose-950/60 text-rose-400 border border-rose-800/60 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center">
                 <AlertCircle className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-base font-bold text-white">Report Delivery Issue</h4>
-                <p className="text-xs text-slate-400">Request a full 100% refund back to your MoMo</p>
+                <h4 className={`text-base font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                  Report Delivery Issue
+                </h4>
+                <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                  Request a full 100% refund back to your MoMo
+                </p>
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="block text-xs font-bold text-slate-300">Reason for refund request</label>
+              <label className={`block text-xs font-bold ${
+                theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                Reason for refund request
+              </label>
               <textarea
                 rows={3}
                 required
                 value={disputeReason}
                 onChange={(e) => setDisputeReason(e.target.value)}
                 placeholder="e.g. Tomatoes were squashed / Rotten items / Store never arrived..."
-                className="w-full p-3 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-500"
+                className={`w-full p-3 rounded-xl border text-xs focus:outline-none ${
+                  theme === 'dark'
+                    ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500 focus:border-rose-500'
+                    : 'bg-slate-50 border-slate-200 text-slate-900 placeholder-slate-400 focus:border-rose-500 focus:bg-white'
+                }`}
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-[#1A2F24]">
+            <div className={`flex justify-end gap-2 pt-2 border-t ${
+              theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-100'
+            }`}>
               <button
                 type="button"
                 onClick={() => setShowDisputeModal(false)}
-                className="px-4 py-2 rounded-xl bg-[#08120D] text-slate-300 text-xs font-bold"
+                className={`px-4 py-2 rounded-xl text-xs font-bold ${
+                  theme === 'dark' ? 'bg-[#08120D] text-slate-300' : 'bg-slate-100 text-slate-700'
+                }`}
               >
                 Cancel
               </button>
