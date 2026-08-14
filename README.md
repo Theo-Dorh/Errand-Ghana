@@ -6,7 +6,6 @@
 [![University of Ghana](https://img.shields.io/badge/Institution-University%20of%20Ghana%2C%20Legon-gold.svg)](https://www.ug.edu.gh)
 [![Vitest](https://img.shields.io/badge/Tests-100%25%20Passing-emerald.svg)](https://vitest.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
