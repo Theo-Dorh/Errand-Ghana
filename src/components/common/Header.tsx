@@ -40,7 +40,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo & Navigation */}
           <div className="flex items-center gap-6">
-            <ErrandLogo size="md" variant={theme === 'dark' ? 'dark' : 'light'} />
+            <ErrandLogo
+              size="md"
+              variant={theme === 'dark' ? 'dark' : 'light'}
+              onClick={() => onTabChange('marketplace')}
+            />
 
             {/* Navigation Tabs (Apex Pill Design) */}
             <nav className={`hidden md:flex items-center gap-1.5 p-1 rounded-2xl border ${

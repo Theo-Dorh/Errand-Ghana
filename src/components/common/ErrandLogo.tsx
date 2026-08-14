@@ -5,6 +5,7 @@ interface ErrandLogoProps {
   size?: 'sm' | 'md' | 'lg';
   showText?: boolean;
   variant?: 'light' | 'dark';
+  onClick?: () => void;
 }
 
 export const ErrandLogo: React.FC<ErrandLogoProps> = ({
@@ -12,6 +13,7 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
   size = 'md',
   showText = true,
   variant = 'light',
+  onClick,
 }) => {
   const sizeClasses = {
     sm: 'w-8 h-8',
@@ -31,8 +33,19 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
     lg: 'text-xs px-2.5 py-0.5',
   };
 
+  const isClickable = Boolean(onClick);
+
   return (
-    <div className={`flex items-center gap-2.5 ${className}`} data-testid="errand-logo-container">
+    <div
+      onClick={onClick}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={isClickable ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); } : undefined}
+      className={`flex items-center gap-2.5 select-none transition-all ${
+        isClickable ? 'cursor-pointer hover:opacity-90 active:scale-95' : ''
+      } ${className}`}
+      data-testid="errand-logo-container"
+    >
       {/* Exact Errand Runner & MoMo Escrow Coin SVG Mark */}
       <div className={`relative shrink-0 ${sizeClasses[size]}`}>
         <svg
@@ -145,29 +158,35 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
 
       {/* Typography & Wordmark */}
       {showText && (
-        <div className="flex flex-col">
+        <div className="flex flex-col text-left">
           <div className="flex items-center gap-1.5 leading-none">
-            {/* Primary Wordmark */}
+            {/* Primary Wordmark - Sentence Case */}
             <span
               className={`tracking-[-0.03em] ${
                 variant === 'dark' ? 'text-white' : 'text-slate-900'
               } ${textSizeClasses[size]}`}
               style={{ letterSpacing: '-0.03em' }}
             >
-              ERRAND
+              Errand
             </span>
 
             {/* Secondary Accent Badge */}
             <span
-              className={`font-mono font-black tracking-wider uppercase rounded-full bg-[#16221B] text-[#F39C12] border border-[#22352B] shadow-inner ${badgeSizeClasses[size]}`}
+              className={`font-mono font-black tracking-wider uppercase rounded-full ${
+                variant === 'dark'
+                  ? 'bg-[#16221B] text-[#D4F938] border border-[#234330]'
+                  : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+              } shadow-inner ${badgeSizeClasses[size]}`}
             >
               GHANA
             </span>
           </div>
 
           {/* Subtitle */}
-          <span className="text-[9px] uppercase font-bold tracking-wider text-emerald-700 mt-0.5">
-            2PC MoMo Escrow Marketplace
+          <span className={`text-[9px] uppercase font-bold tracking-wider mt-0.5 ${
+            variant === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
+          }`}>
+            Everyday Grocery & Safe Pay
           </span>
         </div>
       )}

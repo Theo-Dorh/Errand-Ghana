@@ -51,7 +51,11 @@ export const AuthPage: React.FC = () => {
     }`}>
       {/* Top Header with Brand */}
       <header className="max-w-7xl w-full mx-auto flex items-center justify-between py-4">
-        <ErrandLogo size="md" variant={theme === 'dark' ? 'dark' : 'light'} />
+        <ErrandLogo
+          size="md"
+          variant={theme === 'dark' ? 'dark' : 'light'}
+          onClick={() => setAuthMode('gateway')}
+        />
 
         <div className="flex items-center gap-3">
           {/* Theme Toggle */}
