@@ -121,9 +121,9 @@ export const SubmitOfferModal: React.FC<SubmitOfferModalProps> = ({ list, onClos
             theme === 'dark' ? 'bg-[#08120D] border-[#16281E]' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex items-center justify-between">
-              <span className={`font-bold uppercase tracking-wider ${
+              <span className={`font-bold ${
                 theme === 'dark' ? 'text-white' : 'text-slate-900'
-              }`}>Customer Items</span>
+              }`}>Customer items</span>
               <span className="text-slate-400">{list.neighborhood} ({list.urgency})</span>
             </div>
 

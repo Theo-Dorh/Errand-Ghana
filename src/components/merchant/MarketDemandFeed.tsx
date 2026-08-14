@@ -76,7 +76,7 @@ export const MarketDemandFeed: React.FC = () => {
                 ? 'bg-[#08120D] border-[#16281E]'
                 : 'bg-white border-slate-200 shadow-sm'
             }`}>
-              <span className="text-[10px] text-slate-400 block uppercase font-bold">Open Requests</span>
+              <span className="text-[10px] text-slate-400 block font-semibold">Open requests</span>
               <span className={`text-lg font-black font-mono ${
                 theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
               }`}>
@@ -142,7 +142,7 @@ export const MarketDemandFeed: React.FC = () => {
                       }`}>
                         {list.title}
                       </h4>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase border ${
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                         theme === 'dark'
                           ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
                           : 'bg-emerald-50 text-emerald-800 border-emerald-200'
@@ -168,7 +168,7 @@ export const MarketDemandFeed: React.FC = () => {
                   </div>
 
                   <div className="text-left sm:text-right">
-                    <span className="text-[10px] text-slate-400 uppercase font-bold block">Customer Target Budget</span>
+                    <span className="text-[11px] text-slate-400 font-medium block">Customer target budget</span>
                     <span className={`text-xl sm:text-2xl font-black font-mono ${
                       theme === 'dark' ? 'text-white' : 'text-slate-900'
                     }`}>
@@ -179,8 +179,8 @@ export const MarketDemandFeed: React.FC = () => {
 
                 {/* Items Manifest */}
                 <div className="space-y-2">
-                  <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
-                    Requested Grocery Items ({list.items?.length || 0})
+                  <span className="text-xs font-bold text-slate-400 block">
+                    Requested grocery items ({list.items?.length || 0})
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                     {list.items?.map((item) => (

@@ -80,14 +80,14 @@ export const UserRoleManager: React.FC = () => {
       <div className="apex-card rounded-3xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className={`border-b uppercase tracking-wider font-bold text-[10px] ${
+            <thead className={`border-b font-bold text-[11px] ${
               theme === 'dark' ? 'bg-[#08120D] text-slate-400 border-[#1A2F24]' : 'bg-slate-50 text-slate-500 border-slate-200'
             }`}>
               <tr>
                 <th className="p-4">User</th>
-                <th className="p-4">Contact & Location</th>
-                <th className="p-4">Current Role</th>
-                <th className="p-4">Change Role</th>
+                <th className="p-4">Contact & location</th>
+                <th className="p-4">Current role</th>
+                <th className="p-4">Change role</th>
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -138,7 +138,7 @@ export const UserRoleManager: React.FC = () => {
                   </td>
 
                   <td className="p-4">
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold capitalize border ${
                       u.role === 'shopper'
                         ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                         : u.role === 'store'

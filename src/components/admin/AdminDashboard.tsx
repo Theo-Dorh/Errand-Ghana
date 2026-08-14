@@ -73,7 +73,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Card 1: Locked Balance */}
         <div className="apex-card rounded-3xl p-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-bold uppercase tracking-wider text-[10px]">Locked Escrow Vault</span>
+            <span className="font-semibold text-[11px]">Locked escrow vault</span>
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
               theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B]' : 'bg-amber-50 text-amber-700'
             }`}>
@@ -94,7 +94,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Card 2: 2% Fee Revenue */}
         <div className="apex-card rounded-3xl p-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-bold uppercase tracking-wider text-[10px]">Platform Fee Revenue (2%)</span>
+            <span className="font-semibold text-[11px]">Platform fee revenue (2%)</span>
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
               theme === 'dark' ? 'bg-[#182C20] text-[#D4F938]' : 'bg-emerald-50 text-emerald-700'
             }`}>
@@ -114,7 +114,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Card 3: Total Vendor Payouts */}
         <div className="apex-card rounded-3xl p-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-bold uppercase tracking-wider text-[10px]">Disbursed Store Payouts</span>
+            <span className="font-semibold text-[11px]">Disbursed store payouts</span>
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
               theme === 'dark' ? 'bg-[#16291E] text-emerald-400' : 'bg-emerald-50 text-emerald-700'
             }`}>
@@ -134,7 +134,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Card 4: Compensating Refunds */}
         <div className="apex-card rounded-3xl p-5 space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-bold uppercase tracking-wider text-[10px]">Total Dispute Refunds</span>
+            <span className="font-semibold text-[11px]">Total dispute refunds</span>
             <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
               theme === 'dark' ? 'bg-rose-950/50 text-rose-400' : 'bg-rose-50 text-rose-700'
             }`}>

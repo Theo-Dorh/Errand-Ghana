@@ -170,23 +170,23 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
               Errand
             </span>
 
-            {/* Secondary Accent Badge */}
+            {/* Secondary Accent Badge - Sentence Case */}
             <span
-              className={`font-mono font-black tracking-wider uppercase rounded-full ${
+              className={`font-semibold tracking-normal rounded-full ${
                 variant === 'dark'
                   ? 'bg-[#16221B] text-[#D4F938] border border-[#234330]'
                   : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
               } shadow-inner ${badgeSizeClasses[size]}`}
             >
-              GHANA
+              Ghana
             </span>
           </div>
 
-          {/* Subtitle */}
-          <span className={`text-[9px] uppercase font-bold tracking-wider mt-0.5 ${
+          {/* Subtitle - Sentence Case */}
+          <span className={`text-[10px] font-medium mt-0.5 ${
             variant === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
           }`}>
-            Your Everyday Grocery Shopping Assistant
+            Your everyday grocery shopping assistant
           </span>
         </div>
       )}

@@ -296,12 +296,10 @@ export const CreateDemandListModal: React.FC<CreateDemandListModalProps> = ({ on
                 <span>Add</span>
               </button>
             </div>
-          </div>
-
-          {/* Manifest Items List */}
+          </div>          {/* Manifest Items List */}
           <div className="space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">
-              Items in Your Basket ({items.length})
+            <span className="text-xs font-bold text-slate-400 block">
+              Items in your basket ({items.length})
             </span>
 
             <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
@@ -333,7 +331,7 @@ export const CreateDemandListModal: React.FC<CreateDemandListModalProps> = ({ on
                       type="button"
                       onClick={() => handleRemoveItem(idx)}
                       className={`p-1.5 rounded-lg text-slate-400 transition-colors ${
-                        theme === 'dark' ? 'hover:text-rose-400 hover:bg-[#16281E]' : 'hover:text-rose-600 hover:bg-slate-200'
+                        theme === 'dark' ? 'hover:text-rose-400 hover:bg-[#16291E]' : 'hover:text-rose-600 hover:bg-slate-200'
                       }`}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -349,8 +347,8 @@ export const CreateDemandListModal: React.FC<CreateDemandListModalProps> = ({ on
             theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-100'
           }`}>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                Total Estimated Budget
+              <span className="text-[11px] font-medium text-slate-400 block">
+                Total estimated budget
               </span>
               <span className={`text-xl sm:text-2xl font-black font-mono ${
                 theme === 'dark' ? 'text-white' : 'text-slate-900'

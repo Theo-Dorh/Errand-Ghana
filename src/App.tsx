@@ -106,10 +106,10 @@ const AppContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-              ERRAND GHANA
+              Errand Ghana
             </span>
             <span>•</span>
-            <span>C2B Reverse-Auction Grocery Marketplace & Mobile Money Safe Pay Escrow</span>
+            <span>Your everyday grocery shopping assistant with Mobile Money safe pay escrow</span>
           </div>
 
           <div className="text-slate-400 text-[11px]">

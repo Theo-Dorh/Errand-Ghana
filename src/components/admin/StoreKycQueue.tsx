@@ -53,7 +53,7 @@ export const StoreKycQueue: React.FC = () => {
                 </div>
               </div>
 
-              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                 store.is_approved
                   ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                   : theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border-[#40311B]' : 'bg-amber-100 text-amber-800 border-amber-200'
@@ -80,7 +80,7 @@ export const StoreKycQueue: React.FC = () => {
                 <span>Food Hygiene Grade:</span>
                 <span className={`font-bold ${
                   theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
-                }`}>GRADE A (Certified)</span>
+                }`}>Grade A (Certified)</span>
               </div>
             </div>
 

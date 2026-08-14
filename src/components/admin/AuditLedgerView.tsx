@@ -62,16 +62,16 @@ export const AuditLedgerView: React.FC = () => {
       <div className="apex-card rounded-3xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className={`border-b uppercase tracking-wider font-bold text-[10px] ${
+            <thead className={`border-b font-bold text-[11px] ${
               theme === 'dark' ? 'bg-[#08120D] text-slate-400 border-[#1A2F24]' : 'bg-slate-50 text-slate-500 border-slate-200'
             }`}>
               <tr>
                 <th className="p-4">Timestamp</th>
                 <th className="p-4">Action</th>
                 <th className="p-4">Actor</th>
-                <th className="p-4">State Transition</th>
+                <th className="p-4">State transition</th>
                 <th className="p-4">Amount</th>
-                <th className="p-4">Security Signature</th>
+                <th className="p-4">Security signature</th>
               </tr>
             </thead>
             <tbody className={`divide-y font-mono ${

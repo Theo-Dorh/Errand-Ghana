@@ -249,7 +249,7 @@ export const ShopperDemandView: React.FC = () => {
       {/* 3. Quick Request Form Bar */}
       <div className="apex-card rounded-3xl p-5 sm:p-6 space-y-3">
         <div className="flex items-center justify-between">
-          <span className={`text-xs font-extrabold uppercase tracking-wider flex items-center gap-2 ${
+          <span className={`text-xs font-extrabold flex items-center gap-2 ${
             theme === 'dark' ? 'text-white' : 'text-slate-900'
           }`}>
             <ShoppingBag className={`w-4 h-4 ${theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'}`} />
@@ -346,7 +346,7 @@ export const ShopperDemandView: React.FC = () => {
                         }`}>
                           {list.title}
                         </h4>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                           list.status === 'funded'
                             ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                             : list.status === 'bidded'
@@ -377,7 +377,7 @@ export const ShopperDemandView: React.FC = () => {
                     </div>
 
                     <div className="text-left sm:text-right">
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block">Target Budget</span>
+                      <span className="text-[11px] font-medium text-slate-400 block">Target budget</span>
                       <span className={`text-lg sm:text-xl font-black font-mono ${
                         theme === 'dark' ? 'text-white' : 'text-slate-900'
                       }`}>
@@ -389,8 +389,8 @@ export const ShopperDemandView: React.FC = () => {
                   {/* Items Manifest */}
                   {list.items && list.items.length > 0 && (
                     <div className="space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                        Requested Items ({list.items.length})
+                      <span className="text-[11px] font-semibold text-slate-400 block">
+                        Requested items ({list.items.length})
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                         {list.items.map((item) => (
@@ -417,10 +417,10 @@ export const ShopperDemandView: React.FC = () => {
                   {/* Incoming Store Bids */}
                   <div className="pt-2 space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className={`text-xs font-bold uppercase tracking-wider flex items-center gap-2 ${
+                      <span className={`text-xs font-bold flex items-center gap-2 ${
                         theme === 'dark' ? 'text-white' : 'text-slate-900'
                       }`}>
-                        <span>Store Price Offers</span>
+                        <span>Store price offers</span>
                         <span className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold ${
                           theme === 'dark'
                             ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'

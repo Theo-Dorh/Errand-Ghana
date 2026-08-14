@@ -124,7 +124,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
           </button>
 
           <div className="text-right">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Protected Amount</span>
+            <span className="text-[11px] font-medium text-slate-400 block">Protected amount</span>
             <span className={`text-lg sm:text-xl font-black font-mono ${
               theme === 'dark' ? 'text-white' : 'text-slate-900'
             }`}>
@@ -168,7 +168,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
               ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
               : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
-            <div className="text-[10px] font-mono font-bold uppercase">Step 1</div>
+            <div className="text-[10px] font-mono font-semibold text-slate-400">Step 1</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" />
               <span>MoMo Locked</span>
@@ -182,7 +182,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
               ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
               : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
-            <div className="text-[10px] font-mono font-bold uppercase">Step 2</div>
+            <div className="text-[10px] font-mono font-semibold text-slate-400">Step 2</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
               <Truck className="w-3.5 h-3.5" />
               <span>Driver On Way</span>
@@ -196,7 +196,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
               ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
               : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
-            <div className="text-[10px] font-mono font-bold uppercase">Step 3</div>
+            <div className="text-[10px] font-mono font-semibold text-slate-400">Step 3</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>At Your Door</span>
@@ -210,7 +210,7 @@ export const ShopperOrderTracker: React.FC<ShopperOrderTrackerProps> = ({ order,
               ? theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-300 text-emerald-900'
               : theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24] text-slate-500' : 'bg-white border-slate-200 text-slate-400'
           }`}>
-            <div className="text-[10px] font-mono font-bold uppercase">Step 4</div>
+            <div className="text-[10px] font-mono font-semibold text-slate-400">Step 4</div>
             <div className="text-xs font-extrabold flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Store Paid</span>

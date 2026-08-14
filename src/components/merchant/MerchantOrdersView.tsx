@@ -64,7 +64,7 @@ export const MerchantOrdersView: React.FC = () => {
           <div className={`p-3.5 rounded-2xl border text-right ${
             theme === 'dark' ? 'bg-[#08120D] border-[#16281E]' : 'bg-white border-slate-200 shadow-sm'
           }`}>
-            <span className="text-[10px] text-slate-400 block uppercase font-bold">Active Escrow Balance</span>
+            <span className="text-[10px] text-slate-400 block font-semibold">Active escrow balance</span>
             <span className={`text-lg font-black font-mono ${
               theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
             }`}>
@@ -110,7 +110,7 @@ export const MerchantOrdersView: React.FC = () => {
                       }`}>
                         {order.list_title}
                       </h4>
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                         isReleased
                           ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                           : isRefunded
@@ -149,7 +149,7 @@ export const MerchantOrdersView: React.FC = () => {
                     </button>
 
                     <div className="text-right">
-                      <span className="text-[10px] text-slate-400 block uppercase font-bold">Your Net Payout</span>
+                      <span className="text-[10px] text-slate-400 block font-semibold">Your net payout</span>
                       <span className={`text-lg sm:text-xl font-black font-mono ${
                         theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
                       }`}>

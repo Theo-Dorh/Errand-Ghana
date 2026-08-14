@@ -9,8 +9,8 @@ describe('ErrandLogo Component', () => {
     expect(screen.getByTestId('errand-logo-container')).toBeInTheDocument();
     expect(screen.getByTestId('errand-logo-svg')).toBeInTheDocument();
     expect(screen.getByText('Errand')).toBeInTheDocument();
-    expect(screen.getByText('GHANA')).toBeInTheDocument();
-    expect(screen.getByText(/Your Everyday Grocery Shopping Assistant/i)).toBeInTheDocument();
+    expect(screen.getByText('Ghana')).toBeInTheDocument();
+    expect(screen.getByText(/your everyday grocery shopping assistant/i)).toBeInTheDocument();
   });
 
   it('renders without text when showText is false', () => {

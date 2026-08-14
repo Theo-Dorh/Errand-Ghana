@@ -84,12 +84,12 @@ export const DisputeArbitration: React.FC = () => {
                     <span className={`font-bold text-sm ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                       {order.list_title}
                     </span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold border ${
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                       theme === 'dark'
                         ? 'bg-[#251D10] text-[#F59E0B] border-[#40311B]'
                         : 'bg-amber-100 text-amber-800 border-amber-200'
                     }`}>
-                      {order.escrow_status}
+                      {order.escrow_status.replace('_', ' ')}
                     </span>
                   </div>
                   <div className="text-xs text-slate-400 mt-1">
@@ -99,7 +99,7 @@ export const DisputeArbitration: React.FC = () => {
                 </div>
 
                 <div className="text-right">
-                  <span className="text-[10px] uppercase text-slate-400 font-bold block">Locked Escrow</span>
+                  <span className="text-[10px] text-slate-400 font-semibold block">Locked escrow</span>
                   <span className={`text-base font-black font-mono ${
                     theme === 'dark' ? 'text-white' : 'text-slate-900'
                   }`}>

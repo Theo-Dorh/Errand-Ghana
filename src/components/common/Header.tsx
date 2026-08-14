@@ -216,8 +216,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
                   {/* Switch Role / Persona */}
                   <div className="space-y-1.5">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">
-                      Switch User / Persona
+                    <div className="text-[11px] font-semibold text-slate-400 px-1">
+                      Switch user / persona
                     </div>
                     <div className="space-y-1 max-h-44 overflow-y-auto pr-1">
                       {users.map((u) => (
@@ -241,7 +241,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                             <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate">{u.full_name}</span>
                           </div>
-                          <span className="text-[10px] font-semibold text-slate-400 uppercase shrink-0">
+                          <span className="text-[10px] font-semibold text-slate-400 capitalize shrink-0">
                             {u.role}
                           </span>
                         </button>

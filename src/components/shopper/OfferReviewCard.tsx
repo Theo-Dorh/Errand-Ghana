@@ -92,7 +92,7 @@ export const OfferReviewCard: React.FC<OfferReviewCardProps> = ({ offer, list, o
         {/* Pricing Breakdown */}
         <div className="flex items-center gap-3 sm:gap-4 justify-between sm:justify-end">
           <div className="text-left sm:text-right">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Total Price</div>
+            <div className="text-[11px] font-medium text-slate-400">Total price</div>
             <div className={`text-xl sm:text-2xl font-black font-mono ${
               theme === 'dark' ? 'text-white' : 'text-slate-900'
             }`}>
@@ -110,7 +110,7 @@ export const OfferReviewCard: React.FC<OfferReviewCardProps> = ({ offer, list, o
                 ? 'bg-[#16291E] border-[#234330]'
                 : 'bg-emerald-50 border-emerald-200'
             }`}>
-              <span className="text-[9px] uppercase font-bold text-slate-400 block">You Save</span>
+              <span className="text-[10px] font-semibold text-slate-400 block">You save</span>
               <span className={`text-xs sm:text-sm font-black font-mono block ${
                 theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
               }`}>

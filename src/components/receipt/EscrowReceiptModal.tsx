@@ -69,13 +69,13 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
             <ErrandLogo size="md" variant={theme === 'dark' ? 'dark' : 'light'} />
             <div className="text-left sm:text-right text-xs text-slate-400">
               <div className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                ERRAND GHANA ESCROW ENGINE
+                Errand Ghana Escrow Engine
               </div>
               <div>Accra & Kumasi Urban Hubs</div>
               <div className={`font-mono font-bold mt-1 ${
                 theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
               }`}>
-                STATUS: {order.escrow_status.toUpperCase()}
+                Status: {order.escrow_status.replace('_', ' ')}
               </div>
             </div>
           </div>
@@ -85,17 +85,17 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
             theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-slate-50 border-slate-200'
           }`}>
             <div>
-              <span className="text-slate-400 block font-semibold text-[10px] uppercase">ORDER ID</span>
+              <span className="text-slate-400 block font-semibold text-[10px]">Order ID</span>
               <span className={`font-mono font-bold truncate block ${
                 theme === 'dark' ? 'text-white' : 'text-slate-900'
               }`}>{order.id.slice(0, 13)}...</span>
             </div>
             <div>
-              <span className="text-slate-400 block font-semibold text-[10px] uppercase">MOMO TX REF</span>
-              <span className="font-mono font-bold text-amber-600 truncate block">{order.momo_transaction_id || 'PENDING'}</span>
+              <span className="text-slate-400 block font-semibold text-[10px]">MoMo Tx ref</span>
+              <span className="font-mono font-bold text-amber-600 truncate block">{order.momo_transaction_id || 'Pending'}</span>
             </div>
             <div>
-              <span className="text-slate-400 block font-semibold text-[10px] uppercase">PAYMENT NETWORK</span>
+              <span className="text-slate-400 block font-semibold text-[10px]">Payment network</span>
               <span className={`font-semibold flex items-center gap-1 ${
                 theme === 'dark' ? 'text-white' : 'text-slate-900'
               }`}>
@@ -104,7 +104,7 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
               </span>
             </div>
             <div>
-              <span className="text-slate-400 block font-semibold text-[10px] uppercase">DATE</span>
+              <span className="text-slate-400 block font-semibold text-[10px]">Date</span>
               <span className={`font-mono truncate block ${
                 theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
               }`}>{new Date(order.created_at).toLocaleDateString()}</span>
@@ -116,7 +116,7 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
             <div className={`p-4 rounded-2xl border space-y-1 ${
               theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-slate-50 border-slate-200'
             }`}>
-              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] block">Customer</span>
+              <span className="text-slate-400 font-semibold text-[10px] block">Customer</span>
               <div className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                 {order.shopper_name || 'Customer'}
               </div>
@@ -127,7 +127,7 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
             <div className={`p-4 rounded-2xl border space-y-1 ${
               theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-slate-50 border-slate-200'
             }`}>
-              <span className="text-slate-400 font-bold uppercase tracking-wider text-[10px] block">Store Merchant</span>
+              <span className="text-slate-400 font-semibold text-[10px] block">Store merchant</span>
               <div className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                 {order.store_name}
               </div>
@@ -139,7 +139,7 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
           {/* Itemized Manifest */}
           {list?.items && list.items.length > 0 && (
             <div className="space-y-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Itemized Demand Items</span>
+              <span className="text-xs font-bold text-slate-400">Itemized grocery items</span>
               <div className={`rounded-2xl border overflow-hidden ${
                 theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-200'
               }`}>
@@ -148,8 +148,8 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
                     theme === 'dark' ? 'bg-[#0E1A14] text-slate-400 border-[#1A2F24]' : 'bg-slate-50 text-slate-500 border-slate-200'
                   }`}>
                     <tr>
-                      <th className="p-3 font-bold">Item Name</th>
-                      <th className="p-3 text-center font-bold">Qty / Unit</th>
+                      <th className="p-3 font-bold">Item name</th>
+                      <th className="p-3 text-center font-bold">Qty / unit</th>
                       <th className="p-3 text-right font-bold">Price</th>
                     </tr>
                   </thead>
@@ -178,19 +178,19 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
             theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex justify-between text-slate-400">
-              <span>Gross Escrow Locked Deposit</span>
+              <span>Gross escrow locked deposit</span>
               <span className={`font-mono font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
                 GH₵ {order.total_amount.toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between text-slate-400">
-              <span>Platform Escrow Protection Fee (2%)</span>
+              <span>Platform escrow protection fee (2%)</span>
               <span className="font-mono text-amber-600 font-bold">GH₵ {order.platform_fee.toFixed(2)}</span>
             </div>
             <div className={`pt-2 border-t flex justify-between text-sm font-extrabold ${
               theme === 'dark' ? 'border-[#1A2F24] text-white' : 'border-slate-200 text-slate-900'
             }`}>
-              <span>Vendor Settlement Payout</span>
+              <span>Vendor settlement payout</span>
               <span className={`font-mono ${
                 theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
               }`}>GH₵ {order.vendor_payout.toFixed(2)}</span>
@@ -208,14 +208,14 @@ export const EscrowReceiptModal: React.FC<EscrowReceiptModalProps> = ({ order, l
                 theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-800'
               }`}>
                 <Hash className="w-3.5 h-3.5" />
-                Order Security & State Signature
+                Order security & state signature
               </span>
               <span className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold border ${
                 theme === 'dark'
                   ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
                   : 'bg-emerald-100 text-emerald-800 border-emerald-300'
               }`}>
-                2PC 256-BIT
+                2PC 256-bit
               </span>
             </div>
             <div className={`font-mono text-[10px] break-all p-2.5 rounded-xl border ${

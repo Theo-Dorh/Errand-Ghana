@@ -340,7 +340,7 @@ export const AuthPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${
                     u.role === 'shopper'
                       ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                       : u.role === 'store'
@@ -537,7 +537,7 @@ export const AuthPage: React.FC = () => {
       <footer className={`text-center text-xs py-4 border-t ${
         theme === 'dark' ? 'border-[#1A2F24] text-slate-500' : 'border-slate-200 text-slate-500'
       }`}>
-        <div>ERRAND GHANA • Demand-Led C2B Grocery Marketplace & Mobile Money Escrow Engine</div>
+        <div>Errand Ghana • Your everyday grocery shopping assistant with Mobile Money safe pay escrow</div>
       </footer>
     </div>
   );
