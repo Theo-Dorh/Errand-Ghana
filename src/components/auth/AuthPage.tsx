@@ -46,88 +46,92 @@ export const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-8 transition-colors ${
+    <div className={`min-h-screen flex flex-col justify-between transition-colors ${
       theme === 'dark' ? 'bg-[#080F0B] text-slate-100' : 'bg-slate-50 text-slate-900'
     }`}>
-      {/* Top Header with Brand */}
-      <header className="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
-        <ErrandLogo
-          size="md"
-          variant={theme === 'dark' ? 'dark' : 'light'}
-          onClick={() => setAuthMode('gateway')}
-        />
+      {/* Sticky Top Header with Brand */}
+      <header className={`sticky top-0 z-50 backdrop-blur-md border-b shadow-md transition-colors px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4 ${
+        theme === 'dark' ? 'bg-[#080F0B]/95 border-[#1A2F24]' : 'bg-white/95 border-slate-200'
+      }`}>
+        <div className="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <ErrandLogo
+            size="md"
+            variant={theme === 'dark' ? 'dark' : 'light'}
+            onClick={() => setAuthMode('gateway')}
+          />
 
-        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle light or dark theme"
-            className={`p-2 sm:px-3 sm:py-2 rounded-2xl border transition-all flex items-center gap-1.5 text-xs font-bold ${
-              theme === 'dark'
-                ? 'bg-[#0E1A14] border-[#1A2F24] text-[#D4F938] hover:border-[#2D4C3A]'
-                : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 shadow-sm'
-            }`}
-            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun className="w-4 h-4 text-[#D4F938]" />
-                <span className="hidden sm:inline text-[11px]">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-4 h-4 text-slate-700" />
-                <span className="hidden sm:inline text-[11px]">Dark</span>
-              </>
-            )}
-          </button>
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle light or dark theme"
+              className={`p-2 sm:px-3 sm:py-2 rounded-2xl border transition-all flex items-center gap-1.5 text-xs font-bold ${
+                theme === 'dark'
+                  ? 'bg-[#0E1A14] border-[#1A2F24] text-[#D4F938] hover:border-[#2D4C3A]'
+                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 shadow-sm'
+              }`}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-4 h-4 text-[#D4F938]" />
+                  <span className="hidden sm:inline text-[11px]">Light</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-slate-700" />
+                  <span className="hidden sm:inline text-[11px]">Dark</span>
+                </>
+              )}
+            </button>
 
-          {/* Mode Tabs */}
-          <div className={`flex items-center gap-1 p-1 rounded-2xl border text-xs w-full sm:w-auto justify-around sm:justify-start ${
-            theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-white border-slate-200 shadow-sm'
-          }`}>
-            <button
-              onClick={() => setAuthMode('gateway')}
-              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
-                authMode === 'gateway'
-                  ? theme === 'dark'
-                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Role Gateway
-            </button>
-            <button
-              onClick={() => setAuthMode('demo')}
-              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
-                authMode === 'demo'
-                  ? theme === 'dark'
-                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Demo Personas
-            </button>
-            <button
-              onClick={() => setAuthMode('register')}
-              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
-                authMode === 'register'
-                  ? theme === 'dark'
-                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Create Account
-            </button>
+            {/* Mode Tabs */}
+            <div className={`flex items-center gap-1 p-1 rounded-2xl border text-xs w-full sm:w-auto justify-around sm:justify-start ${
+              theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-white border-slate-200 shadow-sm'
+            }`}>
+              <button
+                onClick={() => setAuthMode('gateway')}
+                className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
+                  authMode === 'gateway'
+                    ? theme === 'dark'
+                      ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                      : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Role Gateway
+              </button>
+              <button
+                onClick={() => setAuthMode('demo')}
+                className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
+                  authMode === 'demo'
+                    ? theme === 'dark'
+                      ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                      : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Demo Personas
+              </button>
+              <button
+                onClick={() => setAuthMode('register')}
+                className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
+                  authMode === 'register'
+                    ? theme === 'dark'
+                      ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                      : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Create Account
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
       {/* Main Container */}
-      <main className="max-w-5xl w-full mx-auto my-8 space-y-8">
+      <main className="max-w-5xl w-full mx-auto my-8 px-4 sm:px-6 lg:px-8 space-y-8 flex-1">
         {/* Gateway Mode: 3 Role Cards */}
         {authMode === 'gateway' && (
           <div className="space-y-8">

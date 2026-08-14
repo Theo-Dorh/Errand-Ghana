@@ -36,7 +36,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
     : orders.length;
 
   return (
-    <header className={`sticky top-0 z-40 backdrop-blur-md border-b shadow-lg transition-colors ${
+    <header className={`sticky top-0 z-50 backdrop-blur-md border-b shadow-md transition-colors ${
       theme === 'dark'
         ? 'bg-[#080F0B]/95 border-[#1A2F24]'
         : 'bg-white/95 border-slate-200'
