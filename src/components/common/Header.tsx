@@ -11,7 +11,7 @@ import {
   ChevronDown,
   User,
   Store,
-  Lock,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -27,82 +27,82 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   const lockedVault = adminMetrics ? adminMetrics.lockedVaultBalance : 0;
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <header className="sticky top-0 z-40 bg-[#080F0B]/95 backdrop-blur-md border-b border-[#1A2F24] shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo & Brand */}
+          {/* Logo & Navigation */}
           <div className="flex items-center gap-6">
-            <ErrandLogo size="md" />
+            <ErrandLogo size="md" variant="dark" />
 
-            {/* Navigation Tabs */}
-            <nav className="hidden md:flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl">
+            {/* Navigation Tabs (Apex Pill Design) */}
+            <nav className="hidden md:flex items-center gap-1.5 p-1 bg-[#0E1A14] rounded-2xl border border-[#1A2F24]">
               <button
                 onClick={() => onTabChange('marketplace')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
                   activeTab === 'marketplace'
-                    ? 'bg-white text-emerald-800 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
-                {role === 'shopper' && <ShoppingBag className="w-4 h-4 text-emerald-700" />}
-                {role === 'store' && <Store className="w-4 h-4 text-amber-600" />}
-                {role === 'admin' && <Shield className="w-4 h-4 text-purple-600" />}
+                {role === 'shopper' && <ShoppingBag className="w-4 h-4 text-[#D4F938]" />}
+                {role === 'store' && <Store className="w-4 h-4 text-[#D4F938]" />}
+                {role === 'admin' && <Shield className="w-4 h-4 text-[#D4F938]" />}
                 <span>
-                  {role === 'shopper' ? 'Grocery Demands' : role === 'store' ? 'Market Demands' : 'Operations'}
+                  {role === 'shopper' ? 'Grocery Shopping' : role === 'store' ? 'Market Demands' : 'Operations'}
                 </span>
               </button>
 
               <button
                 onClick={() => onTabChange('orders')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
                   activeTab === 'orders'
-                    ? 'bg-white text-emerald-800 shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
-                <Package className="w-4 h-4 text-emerald-700" />
-                <span>{role === 'store' ? 'Fulfillment & Orders' : 'My Escrow Orders'}</span>
+                <Package className="w-4 h-4 text-[#D4F938]" />
+                <span>{role === 'store' ? 'Active Orders' : 'My Orders'}</span>
               </button>
 
               {role === 'admin' && (
                 <button
                   onClick={() => onTabChange('admin')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-extrabold transition-all ${
                     activeTab === 'admin'
-                      ? 'bg-white text-purple-800 shadow-sm'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <Shield className="w-4 h-4 text-purple-600" />
+                  <Shield className="w-4 h-4 text-[#D4F938]" />
                   <span>Admin & Roles</span>
                 </button>
               )}
             </nav>
           </div>
 
-          {/* Right Section: Escrow Vault Pill & User Dropdown */}
+          {/* Right Section: Safe Pay Vault Ticker & User Profile Dropdown */}
           <div className="flex items-center gap-3 sm:gap-4">
-            {/* Live Vault Ticker */}
-            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-xs">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-slate-500 font-medium">Vault:</span>
-              <span className="font-mono font-bold text-emerald-800">
+            {/* Live Safe Pay Vault Ticker */}
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#12221A] border border-[#1F3A2C] text-xs shadow-inner">
+              <div className="w-2 h-2 rounded-full bg-[#D4F938] animate-pulse" />
+              <span className="text-slate-400 text-[11px] font-medium">Safe Pay Vault:</span>
+              <span className="font-mono font-bold text-[#D4F938]">
                 GH₵ {lockedVault.toFixed(2)}
               </span>
-              <Lock className="w-3 h-3 text-emerald-600 ml-0.5" />
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 ml-0.5" />
             </div>
 
             {/* User Profile Menu */}
             <div className="relative">
               <button
                 onClick={() => setShowUserDropdown(!showUserDropdown)}
-                className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-2xl border border-slate-200 hover:border-slate-300 bg-slate-50 transition-all text-left"
+                className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-2xl border border-[#1A2F24] hover:border-[#2D4C3A] bg-[#0E1A14] transition-all text-left"
               >
-                <div className="w-8 h-8 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                <div className="w-8 h-8 rounded-xl bg-[#16291E] border border-[#234330] text-[#D4F938] flex items-center justify-center font-black text-xs">
                   {currentUser.full_name.charAt(0)}
                 </div>
                 <div className="hidden sm:block text-left pr-1">
-                  <div className="text-xs font-bold text-slate-900 truncate max-w-[120px]">
+                  <div className="text-xs font-bold text-white truncate max-w-[120px]">
                     {currentUser.full_name}
                   </div>
                   <div className="flex items-center gap-1 mt-0.5">
@@ -114,18 +114,18 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
 
               {/* Dropdown Menu */}
               {showUserDropdown && (
-                <div className="absolute right-0 mt-2 w-72 bg-white border border-slate-200 rounded-3xl shadow-xl p-3 z-50 space-y-3">
+                <div className="absolute right-0 mt-2 w-72 bg-[#0E1A14] border border-[#1A2F24] rounded-3xl shadow-2xl p-3 z-50 space-y-3">
                   {/* Current User Info */}
-                  <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 space-y-1">
-                    <div className="text-xs font-bold text-slate-900">{currentUser.full_name}</div>
-                    <div className="text-[11px] text-slate-500">{currentUser.email}</div>
-                    <div className="text-[11px] text-emerald-700 font-medium">{currentUser.neighborhood}</div>
+                  <div className="p-3 rounded-2xl bg-[#08120D] border border-[#16281E] space-y-1">
+                    <div className="text-xs font-bold text-white">{currentUser.full_name}</div>
+                    <div className="text-[11px] text-slate-400">{currentUser.email}</div>
+                    <div className="text-[11px] text-[#D4F938] font-medium">{currentUser.neighborhood}</div>
                   </div>
 
                   {/* Switch Role / Persona */}
                   <div className="space-y-1.5">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">
-                      Switch Active User / Role
+                      Switch User / Persona
                     </div>
                     <div className="space-y-1 max-h-44 overflow-y-auto pr-1">
                       {users.map((u) => (
@@ -137,15 +137,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                           }}
                           className={`w-full flex items-center justify-between p-2 rounded-xl text-left text-xs transition-colors ${
                             u.id === currentUser.id
-                              ? 'bg-emerald-50 text-emerald-900 font-bold'
-                              : 'hover:bg-slate-50 text-slate-700'
+                              ? 'bg-[#182C20] text-[#D4F938] font-bold border border-[#234330]'
+                              : 'hover:bg-[#12221A] text-slate-300'
                           }`}
                         >
                           <div className="flex items-center gap-2 truncate">
                             <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate">{u.full_name}</span>
                           </div>
-                          <span className="text-[10px] font-semibold text-slate-500 uppercase shrink-0">
+                          <span className="text-[10px] font-semibold text-slate-400 uppercase shrink-0">
                             {u.role}
                           </span>
                         </button>
@@ -154,13 +154,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
                   </div>
 
                   {/* Log Out */}
-                  <div className="pt-2 border-t border-slate-100">
+                  <div className="pt-2 border-t border-[#1A2F24]">
                     <button
                       onClick={() => {
                         logout();
                         setShowUserDropdown(false);
                       }}
-                      className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-colors"
+                      className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-bold text-rose-400 hover:bg-rose-950/40 transition-colors"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       <span>Log Out</span>
@@ -172,21 +172,21 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
           </div>
         </div>
 
-        {/* Mobile Navigation Tabs */}
-        <div className="flex md:hidden items-center justify-around py-2 border-t border-slate-100">
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden items-center justify-around py-2.5 border-t border-[#1A2F24]">
           <button
             onClick={() => onTabChange('marketplace')}
-            className={`flex items-center gap-1 py-1.5 px-3 rounded-xl text-xs font-bold ${
-              activeTab === 'marketplace' ? 'bg-emerald-50 text-emerald-800' : 'text-slate-500'
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-xl text-xs font-bold ${
+              activeTab === 'marketplace' ? 'bg-[#182C20] text-[#D4F938]' : 'text-slate-400'
             }`}
           >
             <ShoppingBag className="w-3.5 h-3.5" />
-            <span>Marketplace</span>
+            <span>Shopping</span>
           </button>
           <button
             onClick={() => onTabChange('orders')}
-            className={`flex items-center gap-1 py-1.5 px-3 rounded-xl text-xs font-bold ${
-              activeTab === 'orders' ? 'bg-emerald-50 text-emerald-800' : 'text-slate-500'
+            className={`flex items-center gap-1.5 py-1.5 px-3 rounded-xl text-xs font-bold ${
+              activeTab === 'orders' ? 'bg-[#182C20] text-[#D4F938]' : 'text-slate-400'
             }`}
           >
             <Package className="w-3.5 h-3.5" />
@@ -195,8 +195,8 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
           {role === 'admin' && (
             <button
               onClick={() => onTabChange('admin')}
-              className={`flex items-center gap-1 py-1.5 px-3 rounded-xl text-xs font-bold ${
-                activeTab === 'admin' ? 'bg-amber-50 text-amber-800' : 'text-slate-500'
+              className={`flex items-center gap-1.5 py-1.5 px-3 rounded-xl text-xs font-bold ${
+                activeTab === 'admin' ? 'bg-[#182C20] text-[#D4F938]' : 'text-slate-400'
               }`}
             >
               <Shield className="w-3.5 h-3.5" />

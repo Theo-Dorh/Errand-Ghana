@@ -6,6 +6,32 @@ export type OfferStatus = 'pending' | 'accepted' | 'rejected';
 export type EscrowStatus = 'created' | 'funded' | 'in_transit' | 'delivered' | 'released' | 'refunded';
 export type MoMoProvider = 'MTN_MOMO' | 'TELECEL_CASH' | 'AT_MONEY';
 
+export const GHANA_NEIGHBORHOODS = [
+  'East Legon, Accra',
+  'Madina, Accra',
+  'Makola, Accra',
+  'Kaneshie, Accra',
+  'Cantonments, Accra',
+  'Airport Residential, Accra',
+  'Tema Community 1',
+  'Kejetia, Kumasi',
+  'Adum, Kumasi',
+  'Ahodwo, Kumasi',
+] as const;
+
+export const INDIGENOUS_UNITS = [
+  'Olonka (Large Tin)',
+  'Margarine Tin (Small Tin)',
+  'Tubers',
+  'Bag (50kg / 25kg)',
+  'Bag (5kg)',
+  'Bunch (Plantain / Banana)',
+  'Kilogram (kg)',
+  'Paint Bucket',
+  'Crate',
+  'Bottles / Liters',
+] as const;
+
 export interface UserProfile {
   id: string;
   email: string;

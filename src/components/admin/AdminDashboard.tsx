@@ -28,102 +28,102 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-8">
       {/* Top Banner */}
-      <div className="app-card rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-white via-white to-purple-50/40 border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="apex-card rounded-3xl p-6 sm:p-8 border-[#1A2F24] flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-br from-[#0E1A14] via-[#0E1A14] to-[#181226]">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-purple-700 uppercase tracking-wider">
-            <Shield className="w-4 h-4" />
-            <span>Platform Administration & Governance</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#182C20] border border-[#234330] text-[11px] font-bold text-[#D4F938]">
+            <Shield className="w-3.5 h-3.5" />
+            <span>Operations & Role Governance</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
             Errand Ghana Operations Console
           </h2>
-          <p className="text-xs text-slate-500 mt-1 max-w-xl">
-            Supervise platform liquidity, manage and create user roles, review store merchant KYC credentials, and arbitrate order disputes.
+          <p className="text-xs text-slate-400 mt-1 max-w-xl">
+            Supervise platform liquidity, create and manage user roles (Shopper, Store, Admin), verify store merchant KYC credentials, and arbitrate refunds.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-800 text-xs font-bold shrink-0">
-          <div className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
-          <span>Escrow Vault: Operational</span>
+        <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#182C20] border border-[#234330] text-[#D4F938] text-xs font-bold shrink-0">
+          <div className="w-2 h-2 rounded-full bg-[#D4F938] animate-pulse" />
+          <span>Escrow Vault: Active & Secure</span>
         </div>
       </div>
 
-      {/* Escrow Liquidity KPI Cards */}
+      {/* KPI Stat Cards (Apex Style) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Locked Balance */}
-        <div className="app-card rounded-3xl p-5 space-y-2 border-slate-200">
-          <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="apex-card rounded-3xl p-5 space-y-2 border-[#1A2F24]">
+          <div className="flex items-center justify-between text-xs text-slate-400">
             <span className="font-bold uppercase tracking-wider text-[10px]">Locked Escrow Vault</span>
-            <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[#251D10] text-[#F59E0B] flex items-center justify-center">
               <Coins className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-extrabold text-slate-900 font-mono">
+          <div className="text-2xl font-black text-white font-mono">
             GH₵ {lockedBalance.toFixed(2)}
           </div>
-          <div className="text-[11px] text-slate-500 flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+          <div className="text-[11px] text-slate-400 flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#D4F938]" />
             <span>Secured across active orders</span>
           </div>
         </div>
 
         {/* Card 2: 2% Fee Revenue */}
-        <div className="app-card rounded-3xl p-5 space-y-2 border-slate-200">
-          <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="apex-card rounded-3xl p-5 space-y-2 border-[#1A2F24]">
+          <div className="flex items-center justify-between text-xs text-slate-400">
             <span className="font-bold uppercase tracking-wider text-[10px]">Platform Fee Revenue (2%)</span>
-            <div className="w-8 h-8 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[#182C20] text-[#D4F938] flex items-center justify-center">
               <TrendingUp className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-extrabold text-purple-900 font-mono">
+          <div className="text-2xl font-black text-[#D4F938] font-mono">
             GH₵ {feesCollected.toFixed(2)}
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-[11px] text-slate-400">
             <span>2.0% standard escrow fee</span>
           </div>
         </div>
 
         {/* Card 3: Total Vendor Payouts */}
-        <div className="app-card rounded-3xl p-5 space-y-2 border-slate-200">
-          <div className="flex items-center justify-between text-xs text-slate-500">
-            <span className="font-bold uppercase tracking-wider text-[10px]">Disbursed Merchant Payouts</span>
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+        <div className="apex-card rounded-3xl p-5 space-y-2 border-[#1A2F24]">
+          <div className="flex items-center justify-between text-xs text-slate-400">
+            <span className="font-bold uppercase tracking-wider text-[10px]">Disbursed Store Payouts</span>
+            <div className="w-8 h-8 rounded-xl bg-[#16291E] text-emerald-400 flex items-center justify-center">
               <CheckCircle2 className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-extrabold text-emerald-800 font-mono">
+          <div className="text-2xl font-black text-emerald-400 font-mono">
             GH₵ {totalReleased.toFixed(2)}
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-[11px] text-slate-400">
             <span>Completed settlements</span>
           </div>
         </div>
 
         {/* Card 4: Compensating Refunds */}
-        <div className="app-card rounded-3xl p-5 space-y-2 border-slate-200">
-          <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="apex-card rounded-3xl p-5 space-y-2 border-[#1A2F24]">
+          <div className="flex items-center justify-between text-xs text-slate-400">
             <span className="font-bold uppercase tracking-wider text-[10px]">Total Dispute Refunds</span>
-            <div className="w-8 h-8 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-rose-950/50 text-rose-400 flex items-center justify-center">
               <RotateCcw className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-2xl font-extrabold text-rose-800 font-mono">
+          <div className="text-2xl font-black text-rose-400 font-mono">
             GH₵ {totalRefunded.toFixed(2)}
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-[11px] text-slate-400">
             <span>Reversed to shopper MoMo</span>
           </div>
         </div>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-slate-200/80 max-w-2xl">
+      {/* Navigation Tabs (Apex Pill Design) */}
+      <div className="flex items-center gap-2 p-1.5 rounded-2xl bg-[#0E1A14] border border-[#1A2F24] max-w-2xl">
         <button
           onClick={() => setAdminTab('users')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
             adminTab === 'users'
-              ? 'bg-white text-purple-900 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -132,10 +132,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setAdminTab('kyc')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
             adminTab === 'kyc'
-              ? 'bg-white text-purple-900 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
           <UserCheck className="w-4 h-4" />
@@ -144,10 +144,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setAdminTab('disputes')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
             adminTab === 'disputes'
-              ? 'bg-white text-purple-900 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
           <Gavel className="w-4 h-4" />
@@ -156,10 +156,10 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setAdminTab('audit')}
-          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all ${
+          className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
             adminTab === 'audit'
-              ? 'bg-white text-purple-900 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
+              ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+              : 'text-slate-400 hover:text-white'
           }`}
         >
           <Hash className="w-4 h-4" />

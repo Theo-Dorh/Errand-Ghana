@@ -3,58 +3,82 @@
 @tailwind utilities;
 
 :root {
-  --brand-green: #006B3F;
-  --brand-green-hover: #005230;
-  --brand-gold: #F59E0B;
-  --brand-red: #E11D48;
+  --apex-dark: #080F0B;
+  --apex-card: #0E1A14;
+  --apex-card-border: #1A2F24;
+  --apex-card-hover: #223F30;
+  --apex-lime: #D4F938;
+  --apex-lime-hover: #C2E82E;
+  --apex-emerald: #008852;
+  --apex-gold: #F59E0B;
+  --apex-red: #EF4444;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #F8FAFC;
-  color: #0F172A;
+  background-color: #080F0B;
+  color: #F1F5F9;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Custom modern light scrollbar */
+/* Custom Apex Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #080F0B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #1A2F24;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #2D4C3A;
 }
 
-/* Clean Card & Panel Utilities */
-.app-card {
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+/* Apex Card & Surface Utilities */
+.apex-card {
+  background: #0E1A14;
+  border: 1px solid #1A2F24;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
 }
 
-.app-card-hover {
-  transition: all 0.2s ease-in-out;
+.apex-card-hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.app-card-hover:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  border-color: #CBD5E1;
+.apex-card-hover:hover {
+  border-color: #2D4C3A;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.6);
+}
+
+.apex-subcard {
+  background: #08120D;
+  border: 1px solid #16281E;
+}
+
+/* Apex Button */
+.btn-apex {
+  background-color: #D4F938;
+  color: #080F0B;
+  font-weight: 800;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-apex:hover {
+  background-color: #C2E82E;
+  box-shadow: 0 0 20px rgba(212, 249, 56, 0.25);
 }
 
 /* Monospace font utility */
 .font-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
