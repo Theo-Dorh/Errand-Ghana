@@ -131,23 +131,29 @@ export const AuthPage: React.FC = () => {
         {/* Gateway Mode: 3 Role Cards */}
         {authMode === 'gateway' && (
           <div className="space-y-8">
-            <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[11px] font-bold max-w-full text-center flex-wrap justify-center ${
-                theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              }`}>
-                <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                <span>Ghana's C2B Reverse-Auction Grocery Marketplace</span>
+            {/* Realistic Market Hero Banner */}
+            <div
+              className={`rounded-3xl p-8 sm:p-12 relative overflow-hidden border shadow-lg transition-all ${
+                theme === 'dark' ? 'border-[#1A2F24]' : 'border-emerald-200 shadow-emerald-900/10'
+              }`}
+              style={{
+                backgroundImage: `linear-gradient(to right, rgba(5, 20, 14, 0.94) 0%, rgba(5, 20, 14, 0.86) 55%, rgba(5, 20, 14, 0.60) 100%), url('/images/ghana_market_hero.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div className="relative z-10 max-w-2xl space-y-3.5">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-400/40 bg-emerald-950/70 backdrop-blur-md text-[11px] font-bold text-[#D4F938]">
+                  <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                  <span>Ghana's C2B Reverse-Auction Grocery Marketplace</span>
+                </div>
+                <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+                  Login to Errand Ghana — Fresh Market Produce at Wholesale Prices
+                </h1>
+                <p className="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-xl">
+                  Post what you need from Makola, Madina, and local stores. Verified vendors compete with their best prices, and your Mobile Money is protected until you inspect the fresh delivery.
+                </p>
               </div>
-              <h1 className={`text-3xl sm:text-4xl font-black tracking-tight ${
-                theme === 'dark' ? 'text-white' : 'text-slate-900'
-              }`}>
-                Login to Errand Ghana
-              </h1>
-              <p className={`text-xs sm:text-sm ${
-                theme === 'dark' ? 'text-slate-400' : 'text-slate-600'
-              }`}>
-                Choose your role to enter the marketplace. Shoppers post grocery lists, local merchants bid with wholesale prices, and Mobile Money escrow protects your payment.
-              </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

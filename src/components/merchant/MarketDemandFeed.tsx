@@ -42,18 +42,28 @@ export const MarketDemandFeed: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      {/* Top Banner */}
-      <div className={`rounded-3xl p-6 sm:p-8 space-y-4 border transition-all ${
-        theme === 'dark'
-          ? 'apex-card bg-gradient-to-br from-[#0E1A14] via-[#0E1A14] to-[#14261D] border-[#1A2F24]'
-          : 'bg-gradient-to-br from-emerald-50/80 via-white to-amber-50/40 border-emerald-100/90 shadow-sm'
-      }`}>
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Top Banner with Realistic Market Backdrop */}
+      <div
+        className={`rounded-3xl p-6 sm:p-8 space-y-4 border shadow-lg transition-all ${
+          theme === 'dark'
+            ? 'border-[#1A2F24] text-white'
+            : 'border-emerald-200 text-slate-900 shadow-emerald-950/5'
+        }`}
+        style={{
+          backgroundImage:
+            theme === 'dark'
+              ? `linear-gradient(to right, rgba(8, 18, 13, 0.95) 0%, rgba(14, 26, 20, 0.88) 55%, rgba(18, 36, 27, 0.65) 100%), url('/images/ghana_market_hero.jpg')`
+              : `linear-gradient(to right, rgba(255, 255, 255, 0.94) 0%, rgba(240, 253, 244, 0.90) 55%, rgba(254, 243, 199, 0.70) 100%), url('/images/ghana_market_hero.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <div>
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold ${
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold backdrop-blur-md ${
               theme === 'dark'
-                ? 'bg-[#16291E] border-[#234330] text-[#D4F938]'
-                : 'bg-emerald-100/70 border-emerald-200 text-emerald-800'
+                ? 'bg-[#16291E]/90 border-[#234330] text-[#D4F938]'
+                : 'bg-emerald-100/90 border-emerald-300 text-emerald-900'
             }`}>
               <Store className="w-3.5 h-3.5" />
               <span>Merchant Market Board</span>
@@ -64,17 +74,17 @@ export const MarketDemandFeed: React.FC = () => {
               Live Customer Grocery Requests
             </h2>
             <p className={`text-xs mt-1 max-w-xl ${
-              theme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+              theme === 'dark' ? 'text-slate-300' : 'text-slate-700 font-medium'
             }`}>
               Browse grocery shopping lists posted by nearby customers in Accra & Kumasi. Submit your best price offers to win orders with guaranteed Mobile Money payment protection.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className={`p-3.5 rounded-2xl border text-right ${
+            <div className={`p-3.5 rounded-2xl border text-right backdrop-blur-md ${
               theme === 'dark'
-                ? 'bg-[#08120D] border-[#16281E]'
-                : 'bg-white border-slate-200 shadow-sm'
+                ? 'bg-[#08120D]/90 border-[#16281E]'
+                : 'bg-white/90 border-emerald-200 shadow-sm'
             }`}>
               <span className="text-[10px] text-slate-400 block font-semibold">Open requests</span>
               <span className={`text-lg font-black font-mono ${

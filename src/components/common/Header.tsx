@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
             <ErrandLogo
               size="md"
               variant={theme === 'dark' ? 'dark' : 'light'}
-              onClick={() => onTabChange('marketplace')}
+              onClick={logout}
             />
 
             {/* Navigation Tabs (Apex Pill Design) */}

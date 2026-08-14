@@ -41,6 +41,7 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : undefined}
       onKeyDown={isClickable ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(); } : undefined}
+      title={isClickable ? "Errand Ghana — Return to Landing Page" : undefined}
       className={`flex items-center gap-2.5 select-none transition-all ${
         isClickable ? 'cursor-pointer hover:opacity-90 active:scale-95' : ''
       } ${className}`}

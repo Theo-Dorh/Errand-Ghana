@@ -14,7 +14,7 @@ describe('AuthPage Component', () => {
       </ThemeProvider>
     );
 
-    expect(screen.getByText('Login to Errand Ghana')).toBeInTheDocument();
+    expect(screen.getByText(/Login to Errand Ghana/i)).toBeInTheDocument();
     expect(screen.getByText('Login as Shopper')).toBeInTheDocument();
     expect(screen.getByText('Login as Store / Merchant')).toBeInTheDocument();
     expect(screen.getByText('Login as Admin')).toBeInTheDocument();
@@ -47,10 +47,15 @@ describe('AuthPage Component', () => {
     const toggleBtn = screen.getByLabelText(/toggle light or dark theme/i);
     expect(toggleBtn).toBeInTheDocument();
 
-    fireEvent.click(toggleBtn);
+    // Light mode is now the default
     expect(document.documentElement.classList.contains('light')).toBe(true);
 
+    // Toggle to dark mode
     fireEvent.click(toggleBtn);
     expect(document.documentElement.classList.contains('dark')).toBe(true);
+
+    // Toggle back to light mode
+    fireEvent.click(toggleBtn);
+    expect(document.documentElement.classList.contains('light')).toBe(true);
   });
 });

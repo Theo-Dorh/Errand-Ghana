@@ -124,23 +124,28 @@ export const ShopperDemandView: React.FC<ShopperDemandViewProps> = ({ onNavigate
 
   return (
     <div className="space-y-8">
-      {/* 1. Hero / Platform Welcome & Explainer Banner */}
-      <div className={`rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden border transition-all ${
-        theme === 'dark'
-          ? 'apex-card bg-gradient-to-br from-[#0E1A14] via-[#0E1A14] to-[#12241B] border-[#1A2F24]'
-          : 'bg-gradient-to-br from-emerald-50/80 via-white to-amber-50/30 border-emerald-100/90 shadow-sm'
-      }`}>
-        {/* Subtle Ambient Glow */}
-        <div className={`absolute -top-24 -right-24 w-72 h-72 rounded-full blur-3xl pointer-events-none ${
-          theme === 'dark' ? 'bg-[#D4F938]/10' : 'bg-emerald-500/10'
-        }`} />
-
+      {/* 1. Hero / Platform Welcome & Explainer Banner with Realistic Produce Image */}
+      <div
+        className={`rounded-3xl p-6 sm:p-8 space-y-6 relative overflow-hidden border shadow-lg transition-all ${
+          theme === 'dark'
+            ? 'border-[#1A2F24] text-white'
+            : 'border-emerald-200 text-slate-900 shadow-emerald-950/5'
+        }`}
+        style={{
+          backgroundImage:
+            theme === 'dark'
+              ? `linear-gradient(to right, rgba(8, 18, 13, 0.95) 0%, rgba(14, 26, 20, 0.90) 55%, rgba(18, 36, 27, 0.70) 100%), url('/images/fresh_groceries_basket.jpg')`
+              : `linear-gradient(to right, rgba(255, 255, 255, 0.94) 0%, rgba(240, 253, 244, 0.90) 55%, rgba(254, 243, 199, 0.70) 100%), url('/images/fresh_groceries_basket.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2 max-w-2xl">
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold ${
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold backdrop-blur-md ${
               theme === 'dark'
-                ? 'bg-[#16291E] border-[#234330] text-[#D4F938]'
-                : 'bg-emerald-100/70 border-emerald-200 text-emerald-800'
+                ? 'bg-[#16291E]/90 border-[#234330] text-[#D4F938]'
+                : 'bg-emerald-100/90 border-emerald-300 text-emerald-900'
             }`}>
               <Sparkles className="w-3.5 h-3.5" />
               <span>Everyday Grocery Shopping From Your Home</span>
@@ -151,7 +156,7 @@ export const ShopperDemandView: React.FC<ShopperDemandViewProps> = ({ onNavigate
               Get Market Prices on Fresh Groceries — Safely Delivered
             </h1>
             <p className={`text-xs sm:text-sm leading-relaxed ${
-              theme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+              theme === 'dark' ? 'text-slate-300' : 'text-slate-700 font-medium'
             }`}>
               Post what you need from Makola, Madina, and local stores. Verified vendors compete with their best prices, and your Mobile Money is protected until you inspect the fresh delivery.
             </p>
