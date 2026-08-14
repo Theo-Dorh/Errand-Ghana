@@ -59,4 +59,69 @@ router.get('/profiles', (_req: Request, res: Response) => {
   }
 });
 
+// POST /api/admin/users (Create a new user with role)
+router.post('/users', (req: Request, res: Response) => {
+  try {
+    const { email, full_name, role, momo_number, momo_provider, neighborhood, store_name, kyc_ghana_card } = req.body;
+
+    if (!email || !full_name || !role) {
+      return res.status(400).json({ success: false, message: 'Email, full name, and role are required' });
+    }
+
+    const newProfile = storageService.createProfile({
+      email,
+      full_name,
+      role,
+      momo_number: momo_number || '0244000000',
+      momo_provider: momo_provider || 'MTN_MOMO',
+      neighborhood: neighborhood || 'Accra Central',
+      store_name: role === 'store' ? store_name || `${full_name} Mart` : undefined,
+      kyc_ghana_card: role === 'store' ? kyc_ghana_card || 'GHA-000000000-0' : undefined,
+      is_approved: true,
+      rating: 5.0,
+    });
+
+    res.status(201).json({ success: true, message: `User created with role ${role}`, data: newProfile });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// PATCH /api/admin/users/:id/role (Update user role)
+router.patch('/users/:id/role', (req: Request, res: Response) => {
+  try {
+    const rawId = req.params.id;
+    const id = Array.isArray(rawId) ? rawId[0] : rawId;
+    const { role } = req.body;
+
+    if (!role || !['shopper', 'store', 'admin'].includes(role)) {
+      return res.status(400).json({ success: false, message: 'Valid role (shopper, store, admin) is required' });
+    }
+
+    const updated = storageService.updateProfile(id, { role });
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.json({ success: true, message: `User role updated to ${role}`, data: updated });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// DELETE /api/admin/users/:id
+router.delete('/users/:id', (req: Request, res: Response) => {
+  try {
+    const rawId = req.params.id;
+    const id = Array.isArray(rawId) ? rawId[0] : rawId;
+    const deleted = storageService.deleteProfile(id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    res.json({ success: true, message: 'User deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 export default router;

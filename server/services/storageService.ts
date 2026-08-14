@@ -233,12 +233,39 @@ class StorageService {
     return this.profiles.get(id);
   }
 
+  public createProfile(profileData: Omit<UserProfile, 'id' | 'created_at'>): UserProfile {
+    const id = crypto.randomUUID();
+    const newProfile: UserProfile = {
+      id,
+      ...profileData,
+      rating: profileData.rating ?? 5.0,
+      is_approved: profileData.is_approved ?? true,
+      created_at: new Date().toISOString(),
+    };
+    this.profiles.set(id, newProfile);
+
+    this.recordAuditEntry({
+      action: 'ADMIN_CREATE_USER_ROLE',
+      actor_id: '55555555-5555-5555-5555-555555555555',
+      actor_role: 'admin',
+      state_before: 'NONE',
+      state_after: newProfile.role.toUpperCase(),
+      metadata: { user_id: id, email: newProfile.email, role: newProfile.role, full_name: newProfile.full_name },
+    });
+
+    return newProfile;
+  }
+
   public updateProfile(id: string, updates: Partial<UserProfile>): UserProfile | null {
     const profile = this.profiles.get(id);
     if (!profile) return null;
     const updated = { ...profile, ...updates };
     this.profiles.set(id, updated);
     return updated;
+  }
+
+  public deleteProfile(id: string): boolean {
+    return this.profiles.delete(id);
   }
 
   // --- Demand Lists Operations ---

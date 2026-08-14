@@ -1,6 +1,6 @@
 import React from 'react';
 import { StoreOffer, DemandList } from '../../types/index.ts';
-import { Store, Star, Clock, Truck, ShieldCheck, Check } from 'lucide-react';
+import { Store, Star, Clock, ShieldCheck, Check } from 'lucide-react';
 import { MLPriceBenchmarkVisualizer } from '../ml/MLPriceBenchmarkVisualizer.tsx';
 
 interface OfferReviewCardProps {
@@ -13,10 +13,10 @@ export const OfferReviewCard: React.FC<OfferReviewCardProps> = ({ offer, list, o
   const totalAmount = offer.offered_total_price + offer.delivery_fee;
   const isWithinBudget = totalAmount <= list.total_target_budget * 1.05;
 
-  // ML benchmark estimation
+  // ML benchmark calculation
   const supermarketBaseline = Math.round((list.total_target_budget * 1.18) * 100) / 100;
-  const consumerSavings = Math.round((supermarketBaseline - totalAmount) * 100) / 100;
-  const savingsPercent = Math.round(((supermarketBaseline - totalAmount) / supermarketBaseline) * 1000) / 10;
+  const consumerSavings = Math.max(0, Math.round((supermarketBaseline - totalAmount) * 100) / 100);
+  const savingsPercent = Math.max(0, Math.round(((supermarketBaseline - totalAmount) / supermarketBaseline) * 1000) / 10);
 
   const benchmarkData = {
     itemName: list.title,
@@ -25,81 +25,76 @@ export const OfferReviewCard: React.FC<OfferReviewCardProps> = ({ offer, list, o
     accraRetailBenchmark: supermarketBaseline,
     supermarketVariancePercent: savingsPercent,
     consumerSavingsGHS: consumerSavings,
-    mlConfidenceScore: 94.6,
+    mlConfidenceScore: 95.0,
     volatilityIndex: 'Moderate' as const,
     recommendation: isWithinBudget
-      ? 'Verified wholesale merchant pricing. Meets 2PC Escrow safety thresholds.'
-      : 'Bid reflects high perishable transport fees from wholesale hub.',
+      ? 'Competitive wholesale store pricing. Meets platform safety standards.'
+      : 'Bid includes express delivery transport from wholesale market.',
   };
 
   return (
-    <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all shadow-lg space-y-4">
+    <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-200 hover:border-emerald-300 shadow-sm space-y-4 transition-all">
       {/* Merchant Header & Rating */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
-            <Store className="w-5 h-5" />
+          <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-100">
+            <Store className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-slate-100 flex items-center gap-1.5">
-              <span>{offer.store_name}</span>
-              <span title="Verified Merchant">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              </span>
-            </h4>
-            <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-400">
-              <span className="flex items-center text-amber-400 font-semibold gap-1">
-                <Star className="w-3.5 h-3.5 fill-amber-400" />
+            <div className="flex items-center gap-1.5">
+              <h4 className="text-sm sm:text-base font-bold text-slate-900">{offer.store_name}</h4>
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            </div>
+            <div className="flex items-center gap-2 text-xs text-slate-500 mt-0.5">
+              <span className="flex items-center text-amber-600 font-bold gap-1">
+                <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
                 {offer.store_rating || 4.8}
               </span>
               <span>•</span>
-              <span className="text-emerald-400 font-medium">99.2% Fulfillment Rate</span>
+              <span className="flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                Delivery in {offer.fulfillment_time_hours} hrs
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Pricing Summary Badge */}
-        <div className="text-right">
-          <div className="text-xs text-slate-400">Total Bid Amount</div>
-          <div className="text-lg font-extrabold text-amber-400 font-mono">
-            GH₵ {totalAmount.toFixed(2)}
-          </div>
-          <div className="text-[10px] text-slate-500">
-            (Items: GH₵ {offer.offered_total_price.toFixed(2)} + Delivery: GH₵ {offer.delivery_fee.toFixed(2)})
+        {/* Pricing & Savings Tag */}
+        <div className="text-left sm:text-right flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2">
+          {consumerSavings > 0 && (
+            <span className="px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-bold text-[10px] uppercase tracking-wider">
+              Savings: GH₵ {consumerSavings.toFixed(2)}
+            </span>
+          )}
+          <div>
+            <div className="text-base sm:text-xl font-extrabold text-slate-900 font-mono">
+              GH₵ {totalAmount.toFixed(2)}
+            </div>
+            <div className="text-[11px] text-slate-500">
+              (Items: GH₵ {offer.offered_total_price.toFixed(2)} + Delivery: GH₵ {offer.delivery_fee.toFixed(2)})
+            </div>
           </div>
         </div>
       </div>
 
-      {/* SLA Metrics */}
-      <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-950/70 border border-slate-800 text-xs">
-        <div className="flex items-center gap-2 text-slate-300">
-          <Clock className="w-4 h-4 text-amber-400" />
-          <span>Fulfillment: <strong>{offer.fulfillment_time_hours} hrs</strong></span>
-        </div>
-        <div className="flex items-center gap-2 text-slate-300">
-          <Truck className="w-4 h-4 text-emerald-400" />
-          <span>Delivery Fee: <strong>GH₵ {offer.delivery_fee.toFixed(2)}</strong></span>
-        </div>
-      </div>
-
-      {/* Store Notes */}
+      {/* Store Quality Notes (if any) */}
       {offer.store_notes && (
-        <div className="p-3 rounded-xl bg-slate-950/40 border border-slate-800/80 text-xs text-slate-300 italic">
+        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-600">
           "{offer.store_notes}"
         </div>
       )}
 
-      {/* ML Visualizer Comparison */}
+      {/* Benchmark comparison bar */}
       <MLPriceBenchmarkVisualizer benchmark={benchmarkData} compact={false} />
 
-      {/* Action Trigger */}
+      {/* Action Button */}
       <div className="pt-2">
         <button
           onClick={() => onAcceptOffer(offer)}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold text-xs shadow-lg shadow-emerald-950/50 transition-all"
+          className="w-full py-3.5 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md shadow-emerald-900/10 flex items-center justify-center gap-2 transition-all"
         >
           <Check className="w-4 h-4" />
-          <span>Accept Bid & Lock Mobile Money Escrow (Phase 1)</span>
+          <span>Accept Bid & Pay via Mobile Money (Escrow Locked)</span>
         </button>
       </div>
     </div>

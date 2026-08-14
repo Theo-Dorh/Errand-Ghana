@@ -3,77 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --ghana-green: #006B3F;
-  --ghana-gold: #FCD116;
-  --ghana-red: #CE1126;
-  --ghana-dark: #0f172a;
+  --brand-green: #006B3F;
+  --brand-green-hover: #005230;
+  --brand-gold: #F59E0B;
+  --brand-red: #E11D48;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #090d16;
-  color: #f1f5f9;
+  background-color: #F8FAFC;
+  color: #0F172A;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Custom modern scrollbar */
+/* Custom modern light scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0d131f;
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94A3B8;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: rgba(18, 26, 43, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Clean Card & Panel Utilities */
+.app-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
-.glass-panel-gold {
-  background: rgba(245, 158, 11, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(245, 158, 11, 0.2);
+.app-card-hover {
+  transition: all 0.2s ease-in-out;
 }
 
-.glass-panel-green {
-  background: rgba(16, 185, 129, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+.app-card-hover:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  border-color: #CBD5E1;
 }
 
-/* Pulse badge animation */
-@keyframes subtle-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.02);
-  }
-}
-
-.animate-subtle-pulse {
-  animation: subtle-pulse 3s infinite ease-in-out;
-}
-
-/* Monospace font utility for crypto hashes */
+/* Monospace font utility */
 .font-mono {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
