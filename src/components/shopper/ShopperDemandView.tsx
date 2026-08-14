@@ -34,7 +34,11 @@ const CATEGORIES = [
   { id: 'snacks', name: 'Provisions & Spices', icon: Cookie },
 ];
 
-export const ShopperDemandView: React.FC = () => {
+interface ShopperDemandViewProps {
+  onNavigateToOrders?: () => void;
+}
+
+export const ShopperDemandView: React.FC<ShopperDemandViewProps> = ({ onNavigateToOrders }) => {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
   const { demandLists, createDemandList, prepareAndLockMoMo } = useMarketplace();
@@ -612,6 +616,7 @@ export const ShopperDemandView: React.FC = () => {
           defaultMomoNumber={currentUser.momo_number}
           defaultProvider={currentUser.momo_provider}
           onClose={() => setSelectedPayment(null)}
+          onSuccess={() => onNavigateToOrders?.()}
           onConfirmPayment={prepareAndLockMoMo}
         />
       )}

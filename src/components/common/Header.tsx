@@ -25,10 +25,15 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
   const { currentUser, role, users, loginAs, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const { adminMetrics } = useMarketplace();
+  const { adminMetrics, orders } = useMarketplace();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   const lockedVault = adminMetrics ? adminMetrics.lockedVaultBalance : 0;
+  const myOrdersCount = role === 'shopper'
+    ? orders.filter((o) => o.shopper_id === currentUser.id).length
+    : role === 'store'
+    ? orders.filter((o) => o.store_id === currentUser.id).length
+    : orders.length;
 
   return (
     <header className={`sticky top-0 z-40 backdrop-blur-md border-b shadow-lg transition-colors ${
@@ -86,6 +91,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
               >
                 <Package className="w-4 h-4" />
                 <span>{role === 'store' ? 'Active Orders' : 'My Orders'}</span>
+                {myOrdersCount > 0 && (
+                  <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                    activeTab === 'orders'
+                      ? theme === 'dark' ? 'bg-[#234330] text-[#D4F938]' : 'bg-emerald-100 text-emerald-900'
+                      : theme === 'dark' ? 'bg-[#182C20] text-slate-400' : 'bg-slate-200 text-slate-700'
+                  }`}>
+                    {myOrdersCount}
+                  </span>
+                )}
               </button>
 
               {role === 'admin' && (
@@ -295,6 +309,15 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onTabChange }) => {
           >
             <Package className="w-3.5 h-3.5" />
             <span>Orders</span>
+            {myOrdersCount > 0 && (
+              <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono font-bold ${
+                activeTab === 'orders'
+                  ? theme === 'dark' ? 'bg-[#234330] text-[#D4F938]' : 'bg-emerald-200 text-emerald-900'
+                  : theme === 'dark' ? 'bg-[#182C20] text-slate-400' : 'bg-slate-200 text-slate-700'
+              }`}>
+                {myOrdersCount}
+              </span>
+            )}
           </button>
           {role === 'admin' && (
             <button

@@ -126,7 +126,39 @@ const DEFAULT_SEED_LISTS: DemandList[] = [
   },
 ];
 
-const DEFAULT_ORDERS: Order[] = [];
+const DEFAULT_ORDERS: Order[] = [
+  {
+    id: 'order-1111-2222-3333-4444',
+    list_id: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+    offer_id: 'offer-111-222-333',
+    shopper_id: '11111111-1111-1111-1111-111111111111',
+    shopper_name: 'Kofi Mensah',
+    store_id: '33333333-3333-3333-3333-333333333333',
+    store_name: 'Naa Lamiley Makola Wholesale',
+    total_amount: 390.0,
+    platform_fee: 7.8,
+    vendor_payout: 382.2,
+    escrow_status: 'funded',
+    momo_provider: 'MTN_MOMO',
+    momo_number: '0244123456',
+    momo_transaction_id: 'MOMO-GH-928410291',
+    sha256_audit_hash: 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3',
+    created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+    updated_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+    list_title: 'Sunday Jollof & Fresh Soup Basket',
+    neighborhood: 'East Legon, Accra',
+    messages: [
+      {
+        id: 'msg-1',
+        order_id: 'order-1111-2222-3333-4444',
+        sender_id: '33333333-3333-3333-3333-333333333333',
+        sender_name: 'Naa Lamiley Makola Wholesale',
+        message: 'Your crate of fresh Navrongo tomatoes and fragrant rice has been packed and handed over to our dispatch rider.',
+        created_at: new Date(Date.now() - 1000 * 60 * 25).toISOString(),
+      },
+    ],
+  },
+];
 
 const MarketplaceContext = createContext<MarketplaceContextType | undefined>(undefined);
 

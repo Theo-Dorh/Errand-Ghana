@@ -9,6 +9,7 @@ interface MoMoPaymentModalProps {
   defaultMomoNumber?: string;
   defaultProvider?: MoMoProvider;
   onClose: () => void;
+  onSuccess?: () => void;
   onConfirmPayment: (
     offerId: string,
     momoNumber: string,
@@ -23,6 +24,7 @@ export const MoMoPaymentModal: React.FC<MoMoPaymentModalProps> = ({
   defaultMomoNumber = '0244123456',
   defaultProvider = 'MTN_MOMO',
   onClose,
+  onSuccess,
   onConfirmPayment,
 }) => {
   const { theme } = useTheme();
@@ -48,6 +50,7 @@ export const MoMoPaymentModal: React.FC<MoMoPaymentModalProps> = ({
       setErrorMsg('');
       const res = await onConfirmPayment(offer.id, momoNumber, provider, momoPin);
       if (res.success) {
+        onSuccess?.();
         onClose();
       } else {
         setErrorMsg(res.message || 'Payment authentication failed. Please try again.');
