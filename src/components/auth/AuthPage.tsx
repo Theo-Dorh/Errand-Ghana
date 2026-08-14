@@ -50,19 +50,19 @@ export const AuthPage: React.FC = () => {
       theme === 'dark' ? 'bg-[#080F0B] text-slate-100' : 'bg-slate-50 text-slate-900'
     }`}>
       {/* Top Header with Brand */}
-      <header className="max-w-7xl w-full mx-auto flex items-center justify-between py-4">
+      <header className="max-w-7xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
         <ErrandLogo
           size="md"
           variant={theme === 'dark' ? 'dark' : 'light'}
           onClick={() => setAuthMode('gateway')}
         />
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
           {/* Theme Toggle */}
           <button
             onClick={toggleTheme}
             aria-label="Toggle light or dark theme"
-            className={`p-2 rounded-2xl border transition-all flex items-center gap-1.5 text-xs font-bold ${
+            className={`p-2 sm:px-3 sm:py-2 rounded-2xl border transition-all flex items-center gap-1.5 text-xs font-bold ${
               theme === 'dark'
                 ? 'bg-[#0E1A14] border-[#1A2F24] text-[#D4F938] hover:border-[#2D4C3A]'
                 : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 shadow-sm'
@@ -83,12 +83,12 @@ export const AuthPage: React.FC = () => {
           </button>
 
           {/* Mode Tabs */}
-          <div className={`flex items-center gap-1 p-1 rounded-2xl border text-xs ${
+          <div className={`flex items-center gap-1 p-1 rounded-2xl border text-xs w-full sm:w-auto justify-around sm:justify-start ${
             theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-white border-slate-200 shadow-sm'
           }`}>
             <button
               onClick={() => setAuthMode('gateway')}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
                 authMode === 'gateway'
                   ? theme === 'dark'
                     ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
@@ -100,7 +100,7 @@ export const AuthPage: React.FC = () => {
             </button>
             <button
               onClick={() => setAuthMode('demo')}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
                 authMode === 'demo'
                   ? theme === 'dark'
                     ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
@@ -112,7 +112,7 @@ export const AuthPage: React.FC = () => {
             </button>
             <button
               onClick={() => setAuthMode('register')}
-              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+              className={`flex-1 sm:flex-none text-center px-3 py-2 sm:py-1.5 rounded-xl font-bold text-xs transition-all ${
                 authMode === 'register'
                   ? theme === 'dark'
                     ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
@@ -132,10 +132,10 @@ export const AuthPage: React.FC = () => {
         {authMode === 'gateway' && (
           <div className="space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold ${
+              <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-[11px] font-bold max-w-full text-center flex-wrap justify-center ${
                 theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
               }`}>
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="w-3.5 h-3.5 shrink-0" />
                 <span>Ghana's C2B Reverse-Auction Grocery Marketplace</span>
               </div>
               <h1 className={`text-3xl sm:text-4xl font-black tracking-tight ${
@@ -308,14 +308,14 @@ export const AuthPage: React.FC = () => {
                 <button
                   key={u.id}
                   onClick={() => loginAs(u)}
-                  className={`w-full flex items-center justify-between p-4 rounded-2xl border text-left transition-all ${
+                  className={`w-full flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 sm:p-5 rounded-2xl border text-left transition-all ${
                     theme === 'dark'
                       ? 'bg-[#08120D] border-[#16281E] hover:border-[#2D4C3A] hover:bg-[#12221A]'
                       : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
                   }`}
                 >
-                  <div className="flex items-center gap-3.5">
-                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-black text-sm border ${
+                  <div className="flex items-start sm:items-center gap-3.5">
+                    <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-black text-sm border shrink-0 ${
                       u.role === 'shopper'
                         ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                         : u.role === 'store'
@@ -326,7 +326,7 @@ export const AuthPage: React.FC = () => {
                     </div>
 
                     <div>
-                      <div className={`font-bold flex items-center gap-2 ${
+                      <div className={`font-bold flex flex-wrap items-center gap-1.5 ${
                         theme === 'dark' ? 'text-white' : 'text-slate-900'
                       }`}>
                         <span>{u.full_name}</span>
@@ -334,21 +334,28 @@ export const AuthPage: React.FC = () => {
                           <span className="text-xs text-[#F59E0B] font-semibold">({u.store_name})</span>
                         )}
                       </div>
-                      <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                      <div className={`text-xs mt-0.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
                         {u.neighborhood} • {u.momo_provider}
                       </div>
                     </div>
                   </div>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${
-                    u.role === 'shopper'
-                      ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                      : u.role === 'store'
-                      ? theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]' : 'bg-amber-50 text-amber-800 border border-amber-200'
-                      : theme === 'dark' ? 'bg-[#20152B] text-[#C084FC] border border-[#3B2252]' : 'bg-purple-50 text-purple-800 border border-purple-200'
-                  }`}>
-                    {u.role}
-                  </span>
+                  {/* Role Badge - Re-arranges gracefully below on mobile, or right-aligned on tablet/desktop */}
+                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto pl-14 sm:pl-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-200/40">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${
+                      u.role === 'shopper'
+                        ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                        : u.role === 'store'
+                        ? theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]' : 'bg-amber-50 text-amber-800 border border-amber-200'
+                        : theme === 'dark' ? 'bg-[#20152B] text-[#C084FC] border border-[#3B2252]' : 'bg-purple-50 text-purple-800 border border-purple-200'
+                    }`}>
+                      {u.role === 'store' ? 'Store / Merchant' : u.role}
+                    </span>
+                    <span className="sm:hidden text-xs text-slate-400 flex items-center gap-1 font-semibold">
+                      <span>Click to login</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </div>
                 </button>
               ))}
             </div>
