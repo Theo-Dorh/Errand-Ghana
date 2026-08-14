@@ -1,14 +1,17 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { AuthPage } from '../components/auth/AuthPage.tsx';
 import { AuthProvider } from '../context/AuthContext.tsx';
+import { ThemeProvider } from '../context/ThemeContext.tsx';
 
 describe('AuthPage Component', () => {
   it('renders role gateway options (Shopper, Store / Merchant, Admin)', () => {
     render(
-      <AuthProvider>
-        <AuthPage />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AuthPage />
+        </AuthProvider>
+      </ThemeProvider>
     );
 
     expect(screen.getByText('Login to Errand Ghana')).toBeInTheDocument();
@@ -20,13 +23,34 @@ describe('AuthPage Component', () => {
 
   it('renders mode pills for Role Gateway, Demo Personas, and Create Account', () => {
     render(
-      <AuthProvider>
-        <AuthPage />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <AuthPage />
+        </AuthProvider>
+      </ThemeProvider>
     );
 
     expect(screen.getByText('Role Gateway')).toBeInTheDocument();
     expect(screen.getByText('Demo Personas')).toBeInTheDocument();
     expect(screen.getByText('Create Account')).toBeInTheDocument();
+  });
+
+  it('allows toggling between light and dark themes', () => {
+    render(
+      <ThemeProvider>
+        <AuthProvider>
+          <AuthPage />
+        </AuthProvider>
+      </ThemeProvider>
+    );
+
+    const toggleBtn = screen.getByLabelText(/toggle light or dark theme/i);
+    expect(toggleBtn).toBeInTheDocument();
+
+    fireEvent.click(toggleBtn);
+    expect(document.documentElement.classList.contains('light')).toBe(true);
+
+    fireEvent.click(toggleBtn);
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
   });
 });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.tsx';
+import { useTheme } from '../../context/ThemeContext.tsx';
 import { UserRole, MoMoProvider } from '../../types/index.ts';
 import { ErrandLogo } from '../common/ErrandLogo.tsx';
 import {
@@ -10,10 +11,13 @@ import {
   Sparkles,
   CheckCircle2,
   Lock,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 export const AuthPage: React.FC = () => {
   const { loginByRole, loginAs, signup, users } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   const [authMode, setAuthMode] = useState<'gateway' | 'demo' | 'register'>('gateway');
 
@@ -42,42 +46,79 @@ export const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#080F0B] text-slate-100 flex flex-col justify-between p-4 sm:p-6 lg:p-8">
+    <div className={`min-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-8 transition-colors ${
+      theme === 'dark' ? 'bg-[#080F0B] text-slate-100' : 'bg-slate-50 text-slate-900'
+    }`}>
       {/* Top Header with Brand */}
       <header className="max-w-7xl w-full mx-auto flex items-center justify-between py-4">
-        <ErrandLogo size="md" variant="dark" />
+        <ErrandLogo size="md" variant={theme === 'dark' ? 'dark' : 'light'} />
 
-        <div className="flex items-center gap-2 p-1 bg-[#0E1A14] rounded-2xl border border-[#1A2F24] text-xs">
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle */}
           <button
-            onClick={() => setAuthMode('gateway')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-              authMode === 'gateway'
-                ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                : 'text-slate-400 hover:text-white'
+            onClick={toggleTheme}
+            aria-label="Toggle light or dark theme"
+            className={`p-2 rounded-2xl border transition-all flex items-center gap-1.5 text-xs font-bold ${
+              theme === 'dark'
+                ? 'bg-[#0E1A14] border-[#1A2F24] text-[#D4F938] hover:border-[#2D4C3A]'
+                : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-100 shadow-sm'
             }`}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
           >
-            Role Gateway
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-4 h-4 text-[#D4F938]" />
+                <span className="hidden sm:inline text-[11px]">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-4 h-4 text-slate-700" />
+                <span className="hidden sm:inline text-[11px]">Dark</span>
+              </>
+            )}
           </button>
-          <button
-            onClick={() => setAuthMode('demo')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-              authMode === 'demo'
-                ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Demo Personas
-          </button>
-          <button
-            onClick={() => setAuthMode('register')}
-            className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-              authMode === 'register'
-                ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Create Account
-          </button>
+
+          {/* Mode Tabs */}
+          <div className={`flex items-center gap-1 p-1 rounded-2xl border text-xs ${
+            theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-white border-slate-200 shadow-sm'
+          }`}>
+            <button
+              onClick={() => setAuthMode('gateway')}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                authMode === 'gateway'
+                  ? theme === 'dark'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Role Gateway
+            </button>
+            <button
+              onClick={() => setAuthMode('demo')}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                authMode === 'demo'
+                  ? theme === 'dark'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Demo Personas
+            </button>
+            <button
+              onClick={() => setAuthMode('register')}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                authMode === 'register'
+                  ? theme === 'dark'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                    : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Create Account
+            </button>
+          </div>
         </div>
       </header>
 
@@ -87,34 +128,52 @@ export const AuthPage: React.FC = () => {
         {authMode === 'gateway' && (
           <div className="space-y-8">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#182C20] border border-[#234330] text-[11px] font-bold text-[#D4F938]">
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[11px] font-bold ${
+                theme === 'dark' ? 'bg-[#182C20] border-[#234330] text-[#D4F938]' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+              }`}>
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Ghana's C2B Reverse-Auction Grocery Marketplace</span>
               </div>
-              <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              <h1 className={`text-3xl sm:text-4xl font-black tracking-tight ${
+                theme === 'dark' ? 'text-white' : 'text-slate-900'
+              }`}>
                 Login to Errand Ghana
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400">
+              <p className={`text-xs sm:text-sm ${
+                theme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+              }`}>
                 Choose your role to enter the marketplace. Shoppers post grocery lists, local merchants bid with wholesale prices, and Mobile Money escrow protects your payment.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Card 1: Shopper */}
-              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24] apex-card-hover flex flex-col justify-between">
+              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 apex-card-hover flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#182C20] border border-[#234330] text-[#D4F938] flex items-center justify-center">
+                  <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center ${
+                    theme === 'dark'
+                      ? 'bg-[#182C20] border-[#234330] text-[#D4F938]'
+                      : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                  }`}>
                     <ShoppingBag className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Login as Shopper</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                      Login as Shopper
+                    </h3>
+                    <p className={`text-xs mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
                       Post your grocery list, set target price ceilings, and let Makola & local merchants compete for your order.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-[#08120D] border border-[#16281E] text-[11px] text-slate-300 space-y-1">
-                    <div className="flex items-center gap-1.5 text-[#D4F938] font-bold">
+                  <div className={`p-3 rounded-2xl border text-[11px] space-y-1 ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] text-slate-300'
+                      : 'bg-slate-50 border-slate-100 text-slate-600'
+                  }`}>
+                    <div className={`flex items-center gap-1.5 font-bold ${
+                      theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
+                    }`}>
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Safe Pay Guarantee</span>
                     </div>
@@ -132,20 +191,32 @@ export const AuthPage: React.FC = () => {
               </div>
 
               {/* Card 2: Store Merchant */}
-              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24] apex-card-hover flex flex-col justify-between">
+              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 apex-card-hover flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#251D10] border border-[#40311B] text-[#F59E0B] flex items-center justify-center">
+                  <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center ${
+                    theme === 'dark'
+                      ? 'bg-[#251D10] border-[#40311B] text-[#F59E0B]'
+                      : 'bg-amber-50 border-amber-200 text-amber-800'
+                  }`}>
                     <Store className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Login as Store / Merchant</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                      Login as Store / Merchant
+                    </h3>
+                    <p className={`text-xs mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
                       Browse open neighborhood grocery requests, submit wholesale bids, and receive guaranteed wallet payouts.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-[#08120D] border border-[#16281E] text-[11px] text-slate-300 space-y-1">
-                    <div className="flex items-center gap-1.5 text-[#F59E0B] font-bold">
+                  <div className={`p-3 rounded-2xl border text-[11px] space-y-1 ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] text-slate-300'
+                      : 'bg-slate-50 border-slate-100 text-slate-600'
+                  }`}>
+                    <div className={`flex items-center gap-1.5 font-bold ${
+                      theme === 'dark' ? 'text-[#F59E0B]' : 'text-amber-700'
+                    }`}>
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Guaranteed Escrow Payout</span>
                     </div>
@@ -155,7 +226,11 @@ export const AuthPage: React.FC = () => {
 
                 <button
                   onClick={() => loginByRole('store')}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#251D10] hover:bg-[#332615] text-[#F59E0B] border border-[#40311B] text-xs font-bold transition-all shadow-md"
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-xs font-bold transition-all shadow-md ${
+                    theme === 'dark'
+                      ? 'bg-[#251D10] hover:bg-[#332615] text-[#F59E0B] border border-[#40311B]'
+                      : 'bg-amber-600 hover:bg-amber-700 text-white'
+                  }`}
                 >
                   <span>Enter as Store</span>
                   <ArrowRight className="w-4 h-4" />
@@ -163,20 +238,32 @@ export const AuthPage: React.FC = () => {
               </div>
 
               {/* Card 3: Admin */}
-              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24] apex-card-hover flex flex-col justify-between">
+              <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 apex-card-hover flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#20152B] border border-[#3B2252] text-[#C084FC] flex items-center justify-center">
+                  <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center ${
+                    theme === 'dark'
+                      ? 'bg-[#20152B] border-[#3B2252] text-[#C084FC]'
+                      : 'bg-purple-50 border-purple-200 text-purple-800'
+                  }`}>
                     <Shield className="w-7 h-7" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Login as Admin</h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                      Login as Admin
+                    </h3>
+                    <p className={`text-xs mt-1 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
                       Operations oversight, manage & create custom user roles, verify store KYC, and arbitrate refund disputes.
                     </p>
                   </div>
 
-                  <div className="p-3 rounded-2xl bg-[#08120D] border border-[#16281E] text-[11px] text-slate-300 space-y-1">
-                    <div className="flex items-center gap-1.5 text-[#C084FC] font-bold">
+                  <div className={`p-3 rounded-2xl border text-[11px] space-y-1 ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] text-slate-300'
+                      : 'bg-slate-50 border-slate-100 text-slate-600'
+                  }`}>
+                    <div className={`flex items-center gap-1.5 font-bold ${
+                      theme === 'dark' ? 'text-[#C084FC]' : 'text-purple-700'
+                    }`}>
                       <Lock className="w-3.5 h-3.5" />
                       <span>Role & Escrow Governance</span>
                     </div>
@@ -186,7 +273,11 @@ export const AuthPage: React.FC = () => {
 
                 <button
                   onClick={() => loginByRole('admin')}
-                  className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#20152B] hover:bg-[#2B1B3B] text-[#C084FC] border border-[#3B2252] text-xs font-bold transition-all shadow-md"
+                  className={`w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-xs font-bold transition-all shadow-md ${
+                    theme === 'dark'
+                      ? 'bg-[#20152B] hover:bg-[#2B1B3B] text-[#C084FC] border border-[#3B2252]'
+                      : 'bg-purple-700 hover:bg-purple-800 text-white'
+                  }`}
                 >
                   <span>Enter as Admin</span>
                   <ArrowRight className="w-4 h-4" />
@@ -198,10 +289,14 @@ export const AuthPage: React.FC = () => {
 
         {/* Demo Personas Mode */}
         {authMode === 'demo' && (
-          <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24] max-w-2xl mx-auto">
+          <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 max-w-2xl mx-auto">
             <div className="text-center space-y-1">
-              <h3 className="text-lg font-bold text-white">Select a Pre-Configured Demo Persona</h3>
-              <p className="text-xs text-slate-400">Click any user profile below to simulate instant login</p>
+              <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                Select a Pre-Configured Demo Persona
+              </h3>
+              <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                Click any user profile below to simulate instant login
+              </p>
             </div>
 
             <div className="space-y-3">
@@ -209,36 +304,44 @@ export const AuthPage: React.FC = () => {
                 <button
                   key={u.id}
                   onClick={() => loginAs(u)}
-                  className="w-full flex items-center justify-between p-4 rounded-2xl bg-[#08120D] border border-[#16281E] hover:border-[#2D4C3A] hover:bg-[#12221A] text-left transition-all"
+                  className={`w-full flex items-center justify-between p-4 rounded-2xl border text-left transition-all ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] hover:border-[#2D4C3A] hover:bg-[#12221A]'
+                      : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
+                  }`}
                 >
                   <div className="flex items-center gap-3.5">
                     <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-black text-sm border ${
                       u.role === 'shopper'
-                        ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
+                        ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
                         : u.role === 'store'
-                        ? 'bg-[#251D10] text-[#F59E0B] border-[#40311B]'
-                        : 'bg-[#20152B] text-[#C084FC] border-[#3B2252]'
+                        ? theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border-[#40311B]' : 'bg-amber-100 text-amber-800 border-amber-200'
+                        : theme === 'dark' ? 'bg-[#20152B] text-[#C084FC] border-[#3B2252]' : 'bg-purple-100 text-purple-800 border-purple-200'
                     }`}>
                       {u.full_name.charAt(0)}
                     </div>
 
                     <div>
-                      <div className="font-bold text-white flex items-center gap-2">
+                      <div className={`font-bold flex items-center gap-2 ${
+                        theme === 'dark' ? 'text-white' : 'text-slate-900'
+                      }`}>
                         <span>{u.full_name}</span>
                         {u.store_name && (
                           <span className="text-xs text-[#F59E0B] font-semibold">({u.store_name})</span>
                         )}
                       </div>
-                      <div className="text-xs text-slate-400">{u.neighborhood} • {u.momo_provider}</div>
+                      <div className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                        {u.neighborhood} • {u.momo_provider}
+                      </div>
                     </div>
                   </div>
 
                   <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                     u.role === 'shopper'
-                      ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]'
+                      ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border border-[#234330]' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
                       : u.role === 'store'
-                      ? 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]'
-                      : 'bg-[#20152B] text-[#C084FC] border border-[#3B2252]'
+                      ? theme === 'dark' ? 'bg-[#251D10] text-[#F59E0B] border border-[#40311B]' : 'bg-amber-50 text-amber-800 border border-amber-200'
+                      : theme === 'dark' ? 'bg-[#20152B] text-[#C084FC] border border-[#3B2252]' : 'bg-purple-50 text-purple-800 border border-purple-200'
                   }`}>
                     {u.role}
                   </span>
@@ -250,23 +353,35 @@ export const AuthPage: React.FC = () => {
 
         {/* Custom Registration Mode */}
         {authMode === 'register' && (
-          <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 border-[#1A2F24] max-w-xl mx-auto">
+          <div className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 max-w-xl mx-auto">
             <div className="text-center space-y-1">
-              <h3 className="text-lg font-bold text-white">Create Your Errand Ghana Account</h3>
-              <p className="text-xs text-slate-400">Join as a Shopper or Store Merchant in Accra & Kumasi</p>
+              <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                Create Your Errand Ghana Account
+              </h3>
+              <p className={`text-xs ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
+                Join as a Shopper or Store Merchant in Accra & Kumasi
+              </p>
             </div>
 
             <form onSubmit={handleRegisterSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">I am joining as a</label>
+                <label className={`block text-xs font-bold mb-1.5 ${
+                  theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                }`}>
+                  I am joining as a
+                </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setRole('shopper')}
                     className={`py-3 px-4 rounded-2xl text-xs font-bold border transition-all flex items-center justify-center gap-2 ${
                       role === 'shopper'
-                        ? 'bg-[#182C20] text-[#D4F938] border-[#D4F938]'
-                        : 'bg-[#08120D] border-[#16281E] text-slate-400'
+                        ? theme === 'dark'
+                          ? 'bg-[#182C20] text-[#D4F938] border-[#D4F938]'
+                          : 'bg-emerald-700 text-white border-emerald-700'
+                        : theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-slate-400'
+                        : 'bg-slate-50 border-slate-200 text-slate-600'
                     }`}
                   >
                     <ShoppingBag className="w-4 h-4" />
@@ -277,8 +392,12 @@ export const AuthPage: React.FC = () => {
                     onClick={() => setRole('store')}
                     className={`py-3 px-4 rounded-2xl text-xs font-bold border transition-all flex items-center justify-center gap-2 ${
                       role === 'store'
-                        ? 'bg-[#251D10] text-[#F59E0B] border-[#F59E0B]'
-                        : 'bg-[#08120D] border-[#16281E] text-slate-400'
+                        ? theme === 'dark'
+                          ? 'bg-[#251D10] text-[#F59E0B] border-[#F59E0B]'
+                          : 'bg-amber-600 text-white border-amber-600'
+                        : theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-slate-400'
+                        : 'bg-slate-50 border-slate-200 text-slate-600'
                     }`}
                   >
                     <Store className="w-4 h-4" />
@@ -289,77 +408,113 @@ export const AuthPage: React.FC = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Full Name *</label>
+                  <label className={`block text-xs font-bold mb-1.5 ${
+                    theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                  }`}>Full Name *</label>
                   <input
                     type="text"
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
                     placeholder="e.g. Kwabena Addo"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#D4F938]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#D4F938] ${
+                      theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500'
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                    }`}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Email Address *</label>
+                  <label className={`block text-xs font-bold mb-1.5 ${
+                    theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                  }`}>Email Address *</label>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="kwabena@gmail.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#D4F938]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#D4F938] ${
+                      theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500'
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                    }`}
                   />
                 </div>
               </div>
 
               {role === 'store' && (
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5">Store / Business Name</label>
+                  <label className={`block text-xs font-bold mb-1.5 ${
+                    theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                  }`}>Store / Business Name</label>
                   <input
                     type="text"
                     value={storeName}
                     onChange={(e) => setStoreName(e.target.value)}
                     placeholder="e.g. Makola Fresh Produce Hub"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#D4F938]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#D4F938] ${
+                      theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500'
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                    }`}
                   />
                 </div>
               )}
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5">MoMo Network</label>
+                  <label className={`block text-xs font-bold mb-1.5 ${
+                    theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                  }`}>MoMo Network</label>
                   <select
                     value={momoProvider}
                     onChange={(e) => setMomoProvider(e.target.value as MoMoProvider)}
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white focus:outline-none focus:border-[#D4F938]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#D4F938] ${
+                      theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-white'
+                        : 'bg-white border-slate-200 text-slate-900'
+                    }`}
                   >
-                    <option value="MTN_MOMO" className="bg-[#0E1A14] text-white">MTN MoMo (*170#)</option>
-                    <option value="TELECEL_CASH" className="bg-[#0E1A14] text-white">Telecel Cash (*110#)</option>
-                    <option value="AT_MONEY" className="bg-[#0E1A14] text-white">AT Money (*110#)</option>
+                    <option value="MTN_MOMO">MTN MoMo (*170#)</option>
+                    <option value="TELECEL_CASH">Telecel Cash (*110#)</option>
+                    <option value="AT_MONEY">AT Money (*110#)</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1.5">MoMo Phone Number</label>
+                  <label className={`block text-xs font-bold mb-1.5 ${
+                    theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                  }`}>MoMo Phone Number</label>
                   <input
                     type="tel"
                     value={momoNumber}
                     onChange={(e) => setMomoNumber(e.target.value)}
                     placeholder="0244123456"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white font-mono placeholder-slate-500 focus:outline-none focus:border-[#D4F938]"
+                    className={`w-full px-3.5 py-2.5 rounded-xl border text-xs font-mono focus:outline-none focus:border-[#D4F938] ${
+                      theme === 'dark'
+                        ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500'
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                    }`}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">Neighborhood / Location</label>
+                <label className={`block text-xs font-bold mb-1.5 ${
+                  theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                }`}>Neighborhood / Location</label>
                 <input
                   type="text"
                   value={neighborhood}
                   onChange={(e) => setNeighborhood(e.target.value)}
                   placeholder="e.g. East Legon, Accra"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#08120D] border border-[#16281E] text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#D4F938]"
+                  className={`w-full px-3.5 py-2.5 rounded-xl border text-xs focus:outline-none focus:border-[#D4F938] ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] text-white placeholder-slate-500'
+                      : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400'
+                  }`}
                 />
               </div>
 
@@ -375,7 +530,9 @@ export const AuthPage: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="text-center text-xs text-slate-500 py-4 border-t border-[#1A2F24]">
+      <footer className={`text-center text-xs py-4 border-t ${
+        theme === 'dark' ? 'border-[#1A2F24] text-slate-500' : 'border-slate-200 text-slate-500'
+      }`}>
         <div>ERRAND GHANA • Demand-Led C2B Grocery Marketplace & Mobile Money Escrow Engine</div>
       </footer>
     </div>

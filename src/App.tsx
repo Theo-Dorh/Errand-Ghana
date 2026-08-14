@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ThemeProvider, useTheme } from './context/ThemeContext.tsx';
 import { AuthProvider, useAuth } from './context/AuthContext.tsx';
 import { MarketplaceProvider, useMarketplace } from './context/MarketplaceContext.tsx';
 import { AuthPage } from './components/auth/AuthPage.tsx';
@@ -13,6 +14,7 @@ import { ShoppingBag } from 'lucide-react';
 
 const AppContent: React.FC = () => {
   const { role, currentUser, isAuthenticated } = useAuth();
+  const { theme } = useTheme();
   const { orders, demandLists } = useMarketplace();
   const [activeTab, setActiveTab] = useState<'marketplace' | 'orders' | 'admin'>('marketplace');
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
@@ -30,7 +32,9 @@ const AppContent: React.FC = () => {
   const myShopperOrders = orders.filter((o) => o.shopper_id === currentUser.id);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#080F0B] text-slate-100 font-sans">
+    <div className={`min-h-screen flex flex-col font-sans transition-colors ${
+      theme === 'dark' ? 'bg-[#080F0B] text-slate-100' : 'bg-slate-50 text-slate-900'
+    }`}>
       {/* Top Header */}
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
@@ -51,17 +55,23 @@ const AppContent: React.FC = () => {
             {role === 'shopper' && (
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-bold text-white">Your Active Grocery Orders</h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                    Your Active Grocery Orders
+                  </h3>
+                  <p className={`text-xs mt-0.5 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
                     Orders with funds protected in the Errand Ghana Escrow Vault. Inspect fresh items at your doorstep to authorize store payment.
                   </p>
                 </div>
 
                 {myShopperOrders.length === 0 ? (
-                  <div className="apex-card rounded-3xl p-12 text-center space-y-2 border-[#1A2F24]">
-                    <ShoppingBag className="w-10 h-10 text-slate-600 mx-auto" />
-                    <div className="text-sm font-bold text-white">No active grocery orders placed</div>
-                    <div className="text-xs text-slate-400">Accept a store price offer on your shopping list to initiate an order.</div>
+                  <div className="apex-card rounded-3xl p-12 text-center space-y-2">
+                    <ShoppingBag className="w-10 h-10 text-slate-400 mx-auto" />
+                    <div className={`text-sm font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>
+                      No active grocery orders placed
+                    </div>
+                    <div className="text-xs text-slate-400">
+                      Accept a store price offer on your shopping list to initiate an order.
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-6">
@@ -90,15 +100,19 @@ const AppContent: React.FC = () => {
       </main>
 
       {/* Consumer Footer */}
-      <footer className="w-full border-t border-[#1A2F24] bg-[#080F0B] py-8 text-xs text-slate-500">
+      <footer className={`w-full border-t py-8 text-xs ${
+        theme === 'dark' ? 'border-[#1A2F24] bg-[#080F0B] text-slate-500' : 'border-slate-200 bg-white text-slate-500'
+      }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-white">ERRAND GHANA</span>
+            <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+              ERRAND GHANA
+            </span>
             <span>•</span>
             <span>C2B Reverse-Auction Grocery Marketplace & Mobile Money Safe Pay Escrow</span>
           </div>
 
-          <div className="text-slate-500 text-[11px]">
+          <div className="text-slate-400 text-[11px]">
             Operating across Accra (Makola, Madina, East Legon, Kaneshie) & Kumasi (Kejetia)
           </div>
         </div>
@@ -112,9 +126,11 @@ const AppContent: React.FC = () => {
 
 export const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <AppWithMarketplace />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppWithMarketplace />
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
