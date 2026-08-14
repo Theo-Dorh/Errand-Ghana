@@ -186,7 +186,7 @@ export const ErrandLogo: React.FC<ErrandLogoProps> = ({
           <span className={`text-[9px] uppercase font-bold tracking-wider mt-0.5 ${
             variant === 'dark' ? 'text-emerald-400' : 'text-emerald-700'
           }`}>
-            Everyday Grocery & Safe Pay
+            Your Everyday Grocery Shopping Assistant
           </span>
         </div>
       )}
