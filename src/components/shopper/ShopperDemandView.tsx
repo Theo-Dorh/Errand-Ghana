@@ -19,6 +19,9 @@ import {
   Cookie,
   Sparkles,
   ShoppingBag,
+  CheckCircle2,
+  User,
+  Users,
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -38,49 +41,81 @@ export const ShopperDemandView: React.FC = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [listScope, setListScope] = useState<'my' | 'all'>('my');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState<{ offer: StoreOffer; list: DemandList } | null>(null);
+  const [createdBanner, setCreatedBanner] = useState<string | null>(null);
 
   // Quick list state
   const [quickTitle, setQuickTitle] = useState('');
   const [quickBudget, setQuickBudget] = useState('');
+  const [isPostingQuick, setIsPostingQuick] = useState(false);
 
-  // Filter demands for this shopper
+  // Filter demands for this shopper vs all market demands
   const myDemands = demandLists.filter((d) => d.shopper_id === currentUser.id);
+  const activeListScope = listScope === 'my' && myDemands.length === 0 && demandLists.length > 0 && false ? 'all' : listScope;
+  const targetDemands = activeListScope === 'my' ? myDemands : demandLists;
 
-  const filteredDemands = myDemands.filter((d) => {
+  const filteredDemands = targetDemands.filter((d) => {
     if (!searchQuery) return true;
+    const q = searchQuery.toLowerCase();
     return (
-      d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      d.neighborhood.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      d.items?.some((i) => i.name.toLowerCase().includes(searchQuery.toLowerCase()))
+      d.title.toLowerCase().includes(q) ||
+      d.neighborhood.toLowerCase().includes(q) ||
+      d.items?.some((i) => i.name.toLowerCase().includes(q))
     );
   });
 
-  const handleQuickSubmit = (e: React.FormEvent) => {
+  const handleQuickSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!quickTitle.trim()) return;
 
-    createDemandList(
-      quickTitle,
-      currentUser.neighborhood || 'East Legon, Accra',
-      `${currentUser.neighborhood}, Accra`,
-      parseFloat(quickBudget) || 150.0,
-      'Standard (2-4 hrs)',
-      'Direct order via quick search builder',
-      [
-        {
-          name: quickTitle,
-          quantity: 1,
-          unit: 'Pack / Bag',
-          target_price: parseFloat(quickBudget) || 150.0,
-          category: 'Fresh Produce',
-        },
-      ]
-    );
+    try {
+      setIsPostingQuick(true);
+      const budget = parseFloat(quickBudget) || 150.0;
+      await createDemandList(
+        quickTitle.trim(),
+        currentUser.neighborhood || 'East Legon, Accra',
+        `${currentUser.neighborhood}, Accra`,
+        budget,
+        'Standard (2-4 hrs)',
+        'Direct order via quick search builder',
+        [
+          {
+            name: quickTitle.trim(),
+            quantity: 1,
+            unit: 'Pack / Bag',
+            target_price: budget,
+            category: 'Fresh Produce',
+          },
+        ]
+      );
 
-    setQuickTitle('');
-    setQuickBudget('');
+      setQuickTitle('');
+      setQuickBudget('');
+      setListScope('my');
+      setSearchQuery('');
+      setCreatedBanner(`"${quickTitle.trim()}" posted successfully! Local stores are preparing bids.`);
+      setTimeout(() => setCreatedBanner(null), 6000);
+    } finally {
+      setIsPostingQuick(false);
+    }
+  };
+
+  const handleModalSubmit = async (
+    title: string,
+    neighborhood: string,
+    deliveryAddress: string,
+    targetBudget: number,
+    urgency: string,
+    notes: string,
+    items: Array<{ name: string; quantity: number; unit: string; target_price: number; category: string }>
+  ) => {
+    await createDemandList(title, neighborhood, deliveryAddress, targetBudget, urgency, notes, items);
+    setListScope('my');
+    setSearchQuery('');
+    setCreatedBanner(`"${title}" published to marketplace! Incoming store bids will appear below.`);
+    setTimeout(() => setCreatedBanner(null), 6000);
   };
 
   return (
@@ -120,7 +155,7 @@ export const ShopperDemandView: React.FC = () => {
 
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl btn-apex text-xs font-black shadow-lg shrink-0 transition-all"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl btn-apex text-xs font-black shadow-lg shrink-0 transition-all active:scale-95"
           >
             <Plus className="w-4 h-4" />
             <span>Create Grocery List</span>
@@ -198,6 +233,26 @@ export const ShopperDemandView: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Notification Banner */}
+      {createdBanner && (
+        <div className={`p-4 rounded-2xl border flex items-center justify-between gap-3 animate-fade-in ${
+          theme === 'dark'
+            ? 'bg-[#16291E] border-[#234330] text-[#D4F938]'
+            : 'bg-emerald-50 border-emerald-200 text-emerald-900'
+        }`}>
+          <div className="flex items-center gap-2.5 text-xs font-bold">
+            <CheckCircle2 className="w-5 h-5 shrink-0" />
+            <span>{createdBanner}</span>
+          </div>
+          <button
+            onClick={() => setCreatedBanner(null)}
+            className="text-xs font-bold opacity-75 hover:opacity-100 underline shrink-0"
+          >
+            Dismiss
+          </button>
+        </div>
+      )}
 
       {/* 2. Search & Category Pills */}
       <div className="space-y-4">
@@ -283,69 +338,147 @@ export const ShopperDemandView: React.FC = () => {
           />
           <button
             type="submit"
-            className="px-6 py-2.5 rounded-xl btn-apex text-xs font-black shrink-0"
+            disabled={isPostingQuick}
+            className="px-6 py-2.5 rounded-xl btn-apex text-xs font-black shrink-0 disabled:opacity-50"
           >
-            Post Request
+            {isPostingQuick ? 'Posting...' : 'Post Request'}
           </button>
         </form>
       </div>
 
-      {/* 4. Active Grocery Requests Feed */}
+      {/* 4. Active Grocery Requests Feed with Tab Filter (My Lists vs All Market Lists) */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className={`text-base font-extrabold flex items-center gap-2 ${
-            theme === 'dark' ? 'text-white' : 'text-slate-900'
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Scope Selector Pills */}
+          <div className={`flex items-center gap-1.5 p-1 rounded-2xl border text-xs w-fit ${
+            theme === 'dark' ? 'bg-[#0E1A14] border-[#1A2F24]' : 'bg-slate-100 border-slate-200'
           }`}>
-            <span>Your Active Grocery Lists</span>
-            <span className={`px-2.5 py-0.5 rounded-full border text-xs font-black font-mono ${
-              theme === 'dark'
-                ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
-                : 'bg-emerald-50 text-emerald-800 border-emerald-200'
-            }`}>
-              {filteredDemands.length}
-            </span>
-          </h3>
+            <button
+              onClick={() => setListScope('my')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold transition-all ${
+                listScope === 'my'
+                  ? theme === 'dark'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+                    : 'bg-white text-emerald-800 border border-slate-200 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <User className="w-3.5 h-3.5" />
+              <span>My Grocery Lists</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                listScope === 'my'
+                  ? theme === 'dark' ? 'bg-[#234330] text-[#D4F938]' : 'bg-emerald-100 text-emerald-900'
+                  : 'bg-slate-500/20 text-slate-400'
+              }`}>
+                {myDemands.length}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setListScope('all')}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl font-bold transition-all ${
+                listScope === 'all'
+                  ? theme === 'dark'
+                    ? 'bg-[#182C20] text-[#D4F938] border border-[#234330] shadow-sm'
+                    : 'bg-white text-emerald-800 border border-slate-200 shadow-sm'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              <Users className="w-3.5 h-3.5" />
+              <span>All Market Demands</span>
+              <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                listScope === 'all'
+                  ? theme === 'dark' ? 'bg-[#234330] text-[#D4F938]' : 'bg-emerald-100 text-emerald-900'
+                  : 'bg-slate-500/20 text-slate-400'
+              }`}>
+                {demandLists.length}
+              </span>
+            </button>
+          </div>
+
+          <div className="text-xs text-slate-400 font-medium">
+            Showing {filteredDemands.length} of {targetDemands.length} lists
+          </div>
         </div>
 
         {filteredDemands.length === 0 ? (
-          <div className="apex-card rounded-3xl p-12 text-center space-y-3">
+          <div className="apex-card rounded-3xl p-10 sm:p-12 text-center space-y-4">
             <ShoppingBag className="w-12 h-12 text-slate-400 mx-auto" />
-            <h4 className={`text-base font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-              No active grocery lists posted yet
-            </h4>
-            <p className="text-xs text-slate-400 max-w-sm mx-auto">
-              Post your shopping list above to start receiving wholesale price offers from local market stores.
-            </p>
-            <button
-              onClick={() => setShowCreateModal(true)}
-              className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-apex text-xs font-black"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Create Grocery List</span>
-            </button>
+            <div>
+              <h4 className={`text-base font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
+                {listScope === 'my' ? 'You have not posted any grocery lists yet' : 'No grocery lists matching your search'}
+              </h4>
+              <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1">
+                {listScope === 'my'
+                  ? 'Post what you need using the form above or click Create Grocery List to start receiving reverse-auction offers from Makola & local vendors.'
+                  : 'Try searching with a different keyword or post a new request above.'}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <button
+                onClick={() => setShowCreateModal(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-apex text-xs font-black"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Create Grocery List</span>
+              </button>
+
+              {listScope === 'my' && demandLists.length > 0 && (
+                <button
+                  onClick={() => setListScope('all')}
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border text-xs font-bold transition-colors ${
+                    theme === 'dark'
+                      ? 'bg-[#08120D] border-[#16281E] text-slate-300 hover:bg-[#12221A]'
+                      : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                  }`}
+                >
+                  <Users className="w-4 h-4" />
+                  <span>Browse Community Demands ({demandLists.length})</span>
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <div className="space-y-6">
             {filteredDemands.map((list) => {
               const offers = list.offers || [];
               const hasOffers = offers.length > 0;
+              const isMyOwnList = list.shopper_id === currentUser.id;
 
               return (
                 <div
                   key={list.id}
-                  className="apex-card rounded-3xl p-6 sm:p-8 space-y-6 apex-card-hover"
+                  className={`apex-card rounded-3xl p-6 sm:p-8 space-y-6 apex-card-hover transition-all ${
+                    isMyOwnList && theme === 'dark'
+                      ? 'border-[#234330]'
+                      : isMyOwnList
+                      ? 'border-emerald-200 shadow-sm'
+                      : ''
+                  }`}
                 >
                   {/* List Header */}
                   <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b ${
                     theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-200/80'
                   }`}>
                     <div>
-                      <div className="flex items-center gap-2.5">
+                      <div className="flex flex-wrap items-center gap-2.5">
                         <h4 className={`text-base sm:text-lg font-bold ${
                           theme === 'dark' ? 'text-white' : 'text-slate-900'
                         }`}>
                           {list.title}
                         </h4>
+
+                        {isMyOwnList && (
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${
+                            theme === 'dark'
+                              ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
+                              : 'bg-emerald-100 text-emerald-800 border-emerald-300'
+                          }`}>
+                            Your List
+                          </span>
+                        )}
+
                         <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                           list.status === 'funded'
                             ? theme === 'dark' ? 'bg-[#182C20] text-[#D4F938] border-[#234330]' : 'bg-emerald-100 text-emerald-800 border-emerald-200'
@@ -355,11 +488,11 @@ export const ShopperDemandView: React.FC = () => {
                             ? theme === 'dark' ? 'bg-[#20152B] text-[#C084FC] border-[#3B2252]' : 'bg-purple-100 text-purple-800 border-purple-200'
                             : theme === 'dark' ? 'bg-[#12221A] text-slate-400 border-[#1A2F24]' : 'bg-slate-100 text-slate-600 border-slate-200'
                         }`}>
-                          {list.status === 'bidded' ? 'Offers Received' : list.status === 'funded' ? 'Payment Locked' : list.status}
+                          {list.status === 'bidded' ? 'Offers Received' : list.status === 'funded' ? 'Payment Locked' : list.status === 'open' ? 'Open for Bids' : list.status}
                         </span>
                       </div>
 
-                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1">
+                      <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 mt-1.5">
                         <span className={`flex items-center gap-1 font-semibold ${
                           theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
                         }`}>
@@ -373,6 +506,12 @@ export const ShopperDemandView: React.FC = () => {
                         </span>
                         <span>•</span>
                         <span>Posted {new Date(list.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                        {!isMyOwnList && list.shopper_name && (
+                          <>
+                            <span>•</span>
+                            <span className="text-slate-400">By {list.shopper_name}</span>
+                          </>
+                        )}
                       </div>
                     </div>
 
@@ -461,7 +600,7 @@ export const ShopperDemandView: React.FC = () => {
       {showCreateModal && (
         <CreateDemandListModal
           onClose={() => setShowCreateModal(false)}
-          onSubmit={createDemandList}
+          onSubmit={handleModalSubmit}
         />
       )}
 
