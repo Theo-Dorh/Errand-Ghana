@@ -73,11 +73,11 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
       data-testid="ml-benchmark-container"
     >
       {/* Header with Confidence */}
-      <div className={`flex items-center justify-between pb-3 border-b ${
+      <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b ${
         theme === 'dark' ? 'border-[#1A2F24]' : 'border-slate-200'
       }`}>
         <div className="flex items-center gap-2.5">
-          <div className={`w-8 h-8 rounded-xl border flex items-center justify-center ${
+          <div className={`w-8 h-8 rounded-xl border flex items-center justify-center shrink-0 ${
             theme === 'dark'
               ? 'bg-[#182C20] text-[#D4F938] border-[#234330]'
               : 'bg-emerald-50 text-emerald-800 border-emerald-200'
@@ -85,7 +85,7 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h4 className={`text-xs font-bold flex items-center gap-2 ${
+            <h4 className={`text-xs font-bold flex flex-wrap items-center gap-2 ${
               theme === 'dark' ? 'text-white' : 'text-slate-900'
             }`}>
               <span>Supermarket Price Benchmark</span>
@@ -103,7 +103,7 @@ export const MLPriceBenchmarkVisualizer: React.FC<MLPriceBenchmarkVisualizerProp
           </div>
         </div>
 
-        <div className="flex flex-col items-end">
+        <div className="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-1">
           <div className={`flex items-center gap-1 text-xs font-bold ${
             theme === 'dark' ? 'text-[#D4F938]' : 'text-emerald-700'
           }`}>
