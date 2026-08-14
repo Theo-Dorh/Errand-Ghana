@@ -1,0 +1,83 @@
+================================================================================
+ERRAND GHANA: C2B REVERSE-AUCTION MARKETPLACE & 2PC MOMO ESCROW ENGINE
+CSCD 602: Advanced Software Engineering — University of Ghana, Legon
+================================================================================
+
+STUDENT / DEVELOPER METADATA:
+--------------------------------------------------------------------------------
+Developer Name    : Theophilus Dorh
+Student ID        : 22425676
+Course Code       : CSCD 602: Advanced Software Engineering
+Department        : Department of Computer Science, University of Ghana, Legon
+Academic Year     : 2025 / 2026 Academic Session
+
+SOURCE CODE & DEPLOYMENT REPOSITORY:
+--------------------------------------------------------------------------------
+GitHub Repository : https://github.com/Theo-Dorh/Errand-Ghana
+Git Target Branch : main
+Project Type      : Full-Stack React 18 + Node.js/Express + Supabase PostgreSQL
+
+SYSTEM ARCHITECTURE HIGHLIGHTS:
+--------------------------------------------------------------------------------
+• Reverse-Auction C2B Market Feed: Tailored to Accra (East Legon, Madina, Makola,
+  Kaneshie, Osu, Spintex) and Kumasi (Kejetia, Adum, KNUST).
+• Distributed 2-Phase Commit (2PC) Saga Escrow Engine:
+  - Phase 1 (Prepare / Lock): Shopper deposits funds via MTN MoMo / Telecel Cash / AT Money into platform vault.
+  - Phase 2 (Commit / Release): Shopper inspects delivered groceries and triggers payout to merchant.
+  - Compensating Transaction (Abort / Refund): Automatic 100% rollback upon arbitrated dispute.
+• Machine Learning Price Benchmark Engine:
+  - 1.18x Accra/Kumasi Supermarket Retail markup regression baseline with perishable volatility weights.
+• Cryptographic Chain of Custody:
+  - Immutable SHA-256 state hashes signed on every 2PC transition with verifiable digital receipts.
+
+PRE-AUTHENTICATED TEST ACCOUNTS (PERSONAS):
+--------------------------------------------------------------------------------
+1. Shopper 1 (Kofi Mensah)
+   - Email       : shopper.kofi@ug.edu.gh
+   - Role        : shopper
+   - Location    : East Legon, Accra
+   - MoMo Wallet : MTN Mobile Money (0244123456)
+
+2. Shopper 2 (Ama Serwaa)
+   - Email       : shopper.ama@gmail.com
+   - Role        : shopper
+   - Location    : Madina, Accra
+   - MoMo Wallet : Telecel Cash (0501987654)
+
+3. Store Merchant 1 (Auntie Naa Baskets / Naa Lamiley Makola Wholesale)
+   - Email       : makola.fresh@gmail.com
+   - Role        : store
+   - Location    : Makola Market Central Wholesale Hub
+   - MoMo Wallet : MTN Mobile Money (0249876543)
+   - KYC Status  : Verified (Ghana Card GHA-723910293-8)
+
+4. Store Merchant 2 (Uncle Joe Coldstore & Tubers / Kaneshie Organic Hub)
+   - Email       : kaneshie.mart@gmail.com
+   - Role        : store
+   - Location    : Kaneshie Market
+   - MoMo Wallet : AT Money (0265551234)
+   - KYC Status  : Verified (Ghana Card GHA-519283741-2)
+
+5. Platform Escrow Auditor (Prof. Boateng)
+   - Email       : admin.escrow@errandghana.ug.edu.gh
+   - Role        : admin
+   - Location    : University of Ghana, Legon
+   - Authority   : Central Liquidity Supervision, Dispute Arbitration & Rollback
+
+LOCAL REPRODUCTION COMMANDS:
+--------------------------------------------------------------------------------
+1. Clone repository:
+   git clone https://github.com/Theo-Dorh/Errand-Ghana.git
+   cd Errand-Ghana
+
+2. Install dependencies:
+   npm install
+
+3. Run automated tests (100% pass rate):
+   npm test
+
+4. Launch concurrent full-stack environment (API Server + Vite Client):
+   npm run dev:all
+   (Frontend: http://localhost:5173 | Backend: http://localhost:3001)
+
+================================================================================
