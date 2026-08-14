@@ -13,9 +13,10 @@ Academic Year     : 2025 / 2026 Academic Session
 
 SOURCE CODE & DEPLOYMENT REPOSITORY:
 --------------------------------------------------------------------------------
-GitHub Repository : https://github.com/Theo-Dorh/Errand-Ghana
-Git Target Branch : main
-Project Type      : Full-Stack React 18 + Node.js/Express + Supabase PostgreSQL
+Live Production URL: https://errand-ghana.vercel.app
+GitHub Repository  : https://github.com/Theo-Dorh/Errand-Ghana
+Git Target Branch  : main
+Project Type       : Full-Stack React 18 + Node.js/Express + Supabase PostgreSQL
 
 SYSTEM ARCHITECTURE HIGHLIGHTS:
 --------------------------------------------------------------------------------

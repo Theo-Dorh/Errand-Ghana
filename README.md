@@ -1,6 +1,7 @@
 # 🇬🇭 ERRAND GHANA
 ### Production-Grade C2B Demand Marketplace & Mobile Money 2PC Escrow Engine
 
+[![Live Deployment](https://img.shields.io/badge/Live%20Demo-errand--ghana.vercel.app-008852?style=for-the-badge&logo=vercel)](https://errand-ghana.vercel.app)
 [![CSCD 602](https://img.shields.io/badge/Course-CSCD%20602%3A%20Advanced%20Software%20Engineering-green.svg)](https://www.ug.edu.gh)
 [![University of Ghana](https://img.shields.io/badge/Institution-University%20of%20Ghana%2C%20Legon-gold.svg)](https://www.ug.edu.gh)
 [![Vitest](https://img.shields.io/badge/Tests-100%25%20Passing-emerald.svg)](https://vitest.dev)
