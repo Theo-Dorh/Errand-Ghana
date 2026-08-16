@@ -1,108 +1,277 @@
-# Operational User Manual
-## ERRAND GHANA: Demand-Led C2B Grocery Marketplace & MoMo Escrow Engine
+# Operational User Manual & System Guide
+## ERRAND GHANA: Demand-Led C2B Grocery Marketplace & Distributed MoMo Escrow Engine
 
 - **Course**: CSCD 602: Advanced Software Engineering, University of Ghana, Legon
 - **Developer / Student**: Theophilus Dorh (Student ID: `22425676`)
 - **Target Repository**: `https://github.com/Theo-Dorh/Errand-Ghana`
 - **Live Production URL**: `https://errand-ghana.vercel.app`
+- **Database Infrastructure**: Supabase PostgreSQL Cloud
 
 ---
 
-## 1. Getting Started & Role Gateway
+## Executive Summary: How Errand Ghana Works
 
-When accessing **ERRAND GHANA** (`https://errand-ghana.vercel.app`), users are greeted with the **Landing Page and Role Gateway**.
+**ERRAND GHANA** is a Consumer-to-Business (C2B) reverse-auction grocery marketplace designed to solve Ghana's twin e-commerce challenges: **high supermarket markups** and **prepayment counterparty risk**.
 
-![Figure 1.1: Errand Ghana Landing Page & 1-Click Role Gateway](images/01_landing_role_gateway.jpg)
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Shopper
+    participant ErrandPlatform as Errand Platform & ML Engine
+    actor Merchant as Store Merchant
+    participant EscrowVault as Safe Pay Vault (2PC Saga)
 
-### 1.1 Role Gateway & Demo Persona Switching
-The top navigation header and role gateway provide instant 1-click access:
-- **Role Gateway**: 3 large cards allowing direct entry as **Shopper**, **Store / Merchant**, or **Admin**.
-- **Demo Personas**: Click-to-login pre-configured Ghanaian market personas:
-  - **Kofi Mensah (Shopper - East Legon)**: `shopper.kofi@ug.edu.gh`
-  - **Ama Serwaa (Shopper - Madina)**: `shopper.ama@gmail.com`
-  - **Auntie Naa Baskets (Merchant - Makola)**: `makola.fresh@gmail.com`
-  - **Uncle Joe (Merchant - Kaneshie)**: `kaneshie.mart@gmail.com`
-  - **Prof. Boateng (Escrow Auditor & Operations)**: `admin.escrow@errandghana.ug.edu.gh`
-- **Theme Toggle**: Switch between clean **Light Mode ☀️** and **Dark Mode 🌙** at any time.
+    Shopper->>ErrandPlatform: 1. Post itemized grocery demand (with Olonka/Tubers & budget)
+    Merchant->>ErrandPlatform: 2. Submit wholesale competitive bid
+    ErrandPlatform->>Shopper: 3. Display ML Supermarket Benchmark (1.18x Shoprite baseline & savings)
+    Shopper->>EscrowVault: 4. Phase 1 Lock: Authorize MoMo PIN (Funds held in Vault)
+    Merchant->>Shopper: 5. Pack & dispatch produce to customer doorstep
+    Shopper->>ErrandPlatform: 6. Complete physical doorstep quality inspection checklist
+    Shopper->>EscrowVault: 7. Phase 2 Commit: Release vendor payout (2% fee collected)
+    Note over Shopper,Merchant: Cryptographic SHA-256 receipt signed immutably
+```
 
----
-
-## 2. Shopper User Guide
-
-![Figure 2.1: Shopper Demand Dashboard & ML Supermarket Price Benchmark](images/02_shopper_ml_benchmark.jpg)
-
-### Step 2.1: Posting a Demand Basket
-1. Navigate to the **Grocery Shopping** tab.
-2. Click the green **+ Create Demand List** button or use the 15-second quick request bar.
-3. Enter a descriptive title (e.g. *Sunday Jollof & Fresh Soup Basket*) and select your neighborhood (e.g. *East Legon*).
-4. Add grocery items using customary Ghanaian volumetric units (`Olonka`, `Margarine Tin`, `Paint Bucket`, `Tubers`, `Bag 5kg`, `Crates`, `kg`, `Liter`).
-5. Set your target price ceiling for each item.
-6. Click **Publish Demand List**.
-
-### Step 2.2: Reviewing Merchant Bids & ML Price Savings
-1. In your **Active Demand Baskets** section, review incoming competitive bids from verified market vendors.
-2. Inspect the **ML Supermarket Price Benchmark** comparative visualizer comparing your budget, the merchant bid, and the Accra Supermarket retail baseline ($1.18\times$ Shoprite/Melcom markup).
-3. Observe the **ML Confidence Score** (e.g. `94.2%`) and calculated consumer savings.
-
-### Step 2.3: Authorizing Phase 1 MoMo Escrow Lock
-1. Click **Accept Offer & Lock MoMo**.
-2. Select your mobile network: **MTN MoMo (*170#)**, **Telecel Cash (*110#)**, or **AT Money (*110#)**.
-3. Confirm your MoMo phone number and enter your 4-digit PIN in the USSD authorization prompt.
-4. The funds are securely locked in the neutral ERRAND GHANA Escrow Vault (`escrow_status: funded`).
+1. **Demand-Led Grocery Aggregation**: Rather than browsing static vendor catalogs with inflated retail prices, shoppers publish structured demand lists with customary Ghanaian volumetric units (*Olonka, Margarine Tin, Paint Bucket, Tubers, Crates*).
+2. **Machine Learning Price Benchmarking**: The embedded ML benchmark service calculates an empirical **1.18x Accra/Kumasi Supermarket Retail markup regression baseline** (reflecting Shoprite/Melcom markups over Makola wholesale prices), allowing shoppers to evaluate bid competitiveness.
+3. **Distributed Two-Phase Commit (2PC) MoMo Escrow**: To eliminate buyer fraud and vendor default, customer funds are locked in a neutral Safe Pay escrow vault (**Phase 1 Prepare**) and are only disbursed to the merchant (**Phase 2 Commit**) after the customer physically checks item quality at their doorstep. If goods are damaged, a **Compensating Rollback** instantly returns 100% principal back to the customer's mobile wallet.
 
 ---
 
-## 3. Order Tracking & Doorstep Inspection
-
-![Figure 3.1: 4-Step Escrow Timeline, Inspection Checklist & Cryptographic Receipt](images/03_escrow_order_tracker.jpg)
-
-### Step 3.1: Live 4-Step Escrow Fulfillment Timeline
-Navigate to the **My Orders** tab to track real-time delivery progression:
-- **Step 1: MoMo Locked (Green Check)** — Funds held securely in escrow vault.
-- **Step 2: Driver On Way (Green Check)** — Vendor has packed and dispatched goods.
-- **Step 3: At Your Door (Active Amber)** — Rider has arrived at customer premises.
-- **Step 4: Store Paid (Pending / White)** — Awaiting physical doorstep verification.
-
-### Step 3.2: Doorstep Quality Inspection & Phase 2 Payout Release
-1. When the dispatch rider delivers the grocery basket, complete the interactive **Doorstep Quality Inspection Checklist**:
-   - [x] Order complete & correct items (Tomatoes, Yams, Pepper, Plantain)
-   - [x] Produce freshness verified (No spoiled or crushed items)
-   - [x] Olonka / Tuber quantities verified
-   - [x] Food packaging intact & sealed
-2. Click **Confirm Delivery & Release Payout (GH₵ 382.20)** to execute the **2PC Phase 2 Commit**.
-3. Payout is instantly credited to the vendor's MoMo wallet, and the 2% platform fee is logged.
-4. Click **View Digital Escrow Receipt** to inspect the printable cryptographic receipt with its immutable **SHA-256 state hash**.
-
-### Step 3.3: Dispute Arbitration & 100% Refund
-- If the produce is spoiled or items are missing, click **Report Issue / Request Refund**.
-- This halts vendor settlement and routes the order to the **Saga Dispute Arbitration Engine** for a 100% compensating rollback refund to the shopper.
+# Part 1: The Shopper User Journey
 
 ---
 
-## 4. Store Merchant & Admin Operations Console
+### 1.1 Landing Page & 1-Click Role Gateway
+When navigating to the platform (`https://errand-ghana.vercel.app`), the user lands on the **Role Gateway**.
 
-![Figure 4.1: Admin Operations Console, Liquidity Vault & SHA-256 Audit Ledger](images/04_admin_audit_console.jpg)
+![Figure 1.1: Landing page showing the Role Gateway](images/01_shopper_role_gateway.png)
 
-### Step 4.1: Store Merchant Fulfillment Flow
-1. Switch persona to **Auntie Naa Baskets** or **Uncle Joe Coldstore**.
-2. Navigate to **Market Demands** and filter by neighborhood (*Makola, Madina, Kaneshie, East Legon*).
-3. Click **Submit Bid** to place a wholesale offer with delivery fee and turnaround time.
-4. Once funded, click **Dispatch Order (In-Transit)** and **Mark Delivered**.
-5. Settlement is guaranteed directly into the merchant's Mobile Money wallet upon customer verification.
-
-### Step 4.2: Admin & Escrow Auditor Governance
-1. Switch persona to **Prof. Boateng (Escrow Auditor)** and open the **Admin & Roles** tab.
-2. **Liquidity Supervision**: Monitor live KPI stat cards for *Locked Escrow Vault*, *Platform Fee Revenue (2%)*, *Disbursed Store Payouts*, and *Dispute Refunds*.
-3. **Store KYC Queue**: Review Ghana Card credentials and approve or revoke market vendors.
-4. **User & Role Governance**: Provision custom roles, reassign permissions, and manage platform users.
-5. **Cryptographic SHA-256 Audit Ledger**: Inspect the immutable cryptographic log of all state transitions, financial movements, actor IDs, and security signatures.
+- **Sticky Brand Header**: Features the official Errand Ghana runner logo mark, Light ☀️ / Dark 🌙 theme toggle, and access to registration.
+- **Role Gateway Cards**: Three 1-click action cards allow examiners and users to immediately enter the system as **Shopper**, **Store / Merchant**, or **Admin** without complex authentication friction.
+- **Market Produce Hero**: Highlights the platform mission of delivering fresh produce at Makola wholesale prices with Mobile Money Safe Pay escrow protection.
 
 ---
 
-## 5. Summary Reference
+### 1.2 Demo Personas & Instant Profile Switcher
+Clicking the **Demo Personas** mode pill displays all pre-configured test profiles seeded in the Supabase PostgreSQL database.
 
-| Role | Primary Tab | Key Actions |
-| :--- | :--- | :--- |
-| **Shopper** | `Grocery Shopping` & `My Orders` | Post demand lists, evaluate ML price benchmark bids, lock MoMo escrow, inspect goods at doorstep, release payout. |
-| **Store Merchant** | `Market Demands` & `Active Orders` | Browse local demand lists, submit competitive wholesale bids, dispatch orders, receive guaranteed payout. |
-| **Admin / Auditor** | `Admin & Roles` | Oversee vault liquidity, verify store KYC, arbitrate disputes, inspect SHA-256 cryptographic audit logs. |
+![Figure 1.2: Demo Personas tab for instant 1-click test login](images/02_shopper_demo_personas.png)
+
+- **Pre-Configured Personas**:
+  - **Kofi Mensah (Shopper - East Legon)**: MTN MoMo (`0244123456`)
+  - **Ama Serwaa (Shopper - Madina)**: Telecel Cash (`0501987654`)
+  - **Auntie Naa Baskets (Merchant - Makola)**: MTN MoMo (`0249876543`)
+  - **Uncle Joe Coldstore (Merchant - Kaneshie)**: AT Money (`0265551234`)
+  - **Prof. Boateng (Escrow Auditor & Operations)**: Platform Admin
+- **Action**: Click on **Kofi Mensah** to simulate an instant login into the Shopper experience.
+
+---
+
+### 1.3 The Grocery List Builder Modal (Indigenous Volume Units)
+Inside the **Grocery Shopping** tab, clicking **+ Create Demand List** opens the demand manifest builder.
+
+![Figure 1.3: The Grocery List Builder modal with items and indigenous volume units](images/03_shopper_grocery_builder_modal.png)
+
+- **Customary Ghanaian Units**: Shoppers specify volume using indigenous market metrics:
+  - `Olonka (Large Tin)` & `Margarine Tin (Small Tin)` (Grains, Fresh Tomatoes, Pepper)
+  - `Tubers` (Pona Yams, Cassava)
+  - `Paint Bucket` (Garden Eggs, Okro)
+  - `Crate` (Eggs, Tomatoes)
+  - `Bunch` (Plantain, Banana)
+- **Target Budget Ceilings**: The shopper assigns budget caps per line item to anchor competitive bidding.
+- **Neighborhood Delivery**: Delivery location is anchored to Accra/Kumasi neighborhood hubs (e.g. *East Legon, Bawaleshie Road*).
+
+---
+
+### 1.4 The Offer Review Card & ML Price Benchmark Panel
+When open-air market vendors submit bids against the demand list, the shopper inspects the **Offer Review Card**.
+
+![Figure 1.4: The offer review card showing the ML Price Benchmark panel](images/04_shopper_offer_ml_benchmark.png)
+
+- **Linear Regression Benchmark Visualizer**:
+  - **Accra Supermarket Retail Benchmark (1.18x)**: Calculated baseline representing formal supermarket prices (e.g., Shoprite/Melcom).
+  - **Shopper Target Budget**: The price ceiling set by the consumer.
+  - **Store Merchant Reverse-Auction Bid**: The wholesale bid submitted by the merchant.
+- **Consumer Savings Callout**: Highlights total savings in GH₵ and percentage below supermarket retail (e.g., *19.5% below retail*).
+- **ML Confidence Score**: Dynamic confidence rating (e.g., `94.2% ML Confidence`) based on commodity volatility weighting (*Fresh Produce: High, Tubers: Moderate, Grains: Low*).
+
+---
+
+### 1.5 The MoMo Safe Pay Payment Modal (Phase 1 Lock)
+Clicking **Accept Offer & Lock MoMo** initiates the **Two-Phase Commit (2PC) Phase 1 Prepare** transaction.
+
+![Figure 1.5: The MoMo Safe Pay payment modal](images/05_shopper_momo_payment_modal.png)
+
+- **Telco Network Selection**: Supports **MTN MoMo (*170#)**, **Telecel Cash (*110#)**, and **AT Money (*110#)**.
+- **USSD Prompt Simulation**: Simulates the standard telecom USSD push prompt where the consumer enters their 4-digit secret PIN.
+- **Vault Security Invariant**: Gross funds (e.g. `GH₵ 390.00`) are debited from the customer's wallet and locked securely in the platform's neutral Safe Pay vault. The merchant is notified to begin dispatch.
+
+---
+
+### 1.6 The 4-Step Escrow Fulfillment Timeline
+On the **My Orders** tab, shoppers track their order through a real-time 4-step fulfillment state machine.
+
+![Figure 1.6: The 4-step escrow timeline on the My Orders tab](images/06_shopper_4step_escrow_timeline.png)
+
+- **State Progression**:
+  1. **Step 1: MoMo Locked (Green Check)**: Funds successfully held in escrow.
+  2. **Step 2: Driver On Way (Green Check)**: Vendor has packed and handed produce to dispatch rider.
+  3. **Step 3: At Your Door (Active Amber)**: Rider has arrived at customer premises.
+  4. **Step 4: Store Paid (Pending)**: Awaiting doorstep quality inspection.
+
+---
+
+### 1.7 The Doorstep Quality Inspection Checklist & Phase 2 Commit
+Upon delivery arrival, the shopper executes the physical inspection before releasing funds.
+
+![Figure 1.7: The Doorstep Quality Inspection Checklist](images/07_shopper_doorstep_checklist.png)
+
+- **Physical Inspection Criteria**:
+  - [x] Order complete & correct items verified
+  - [x] Produce freshness confirmed (no crushed/spoiled items)
+  - [x] Indigenous Olonka/Tuber volume quantities verified
+  - [x] Food packaging intact & sealed
+- **Phase 2 Commit Trigger**: Clicking **Confirm Delivery & Release GH₵ 382.20** transfers net payout to the vendor's wallet and deducts the 2.0% platform fee.
+- **Compensating Dispute Trigger**: If produce is damaged or missing, clicking **Report Issue / Request Refund** halts payment and triggers the dispute arbitration saga.
+
+---
+
+### 1.8 The SHA-256 Cryptographic Digital Receipt Modal
+Clicking **View Digital Escrow Receipt** opens the non-repudiation audit receipt.
+
+![Figure 1.8: The SHA-256 Digital Receipt modal](images/08_shopper_digital_receipt_modal.png)
+
+- **Financial Breakdown**: Itemizes gross order total, 2% platform fee (`GH₵ 7.80`), and net vendor payout (`GH₵ 382.20`).
+- **Cryptographic Non-Repudiation Hash**: Displays the unique 64-character SHA-256 hash calculated across transaction metadata:
+  $$\text{SHA-256}(\text{orderId} + \text{actorId} + \text{stateBefore} + \text{stateAfter} + \text{amount} + \text{timestamp})$$
+- **Verification QR Code**: Enables third-party instant validation of delivery settlement.
+
+---
+
+# Part 2: The Store Merchant User Journey
+
+---
+
+### 2.1 The Merchant Market Board Showing Open Demands
+Logging in as **Auntie Naa Baskets** (*Naa Lamiley Makola Wholesale*) displays the **Market Demands Board**.
+
+![Figure 2.1: The Merchant Market Board showing open demands](images/09_merchant_market_board.png)
+
+- **Demand Stream**: Displays live, unfulfilled grocery requests from shoppers across Accra and Kumasi.
+- **Demand Card Metadata**: Displays customer neighborhood, urgency level, requested items with indigenous volume units, and target budget ceiling.
+
+---
+
+### 2.2 The Neighbourhood Hub Filter Bar
+Merchants optimize fulfillment logistics by filtering demands by geographic hub.
+
+![Figure 2.2: The Neighbourhood Hub Filter Bar](images/10_merchant_hub_filter_bar.png)
+
+- **Hub Filter Chips**: Quick filtering across:
+  - `All Hubs`
+  - `Makola Market (Central Accra)`
+  - `Madina Market (North Accra)`
+  - `Kaneshie Market (West Accra)`
+  - `East Legon / Cantonments`
+  - `Kejetia Hub (Kumasi)`
+
+---
+
+### 2.3 The Submit Bid Modal (Wholesale Reverse-Auction)
+Clicking **Submit Bid** on an open demand opens the reverse-auction bidding modal.
+
+![Figure 2.3: The Submit Bid modal](images/11_merchant_submit_bid_modal.png)
+
+- **Bid Inputs**:
+  - **Offered Wholesale Total (GH₵)**: Merchant's competitive price for the entire grocery basket.
+  - **Delivery Fee (GH₵)**: Logistics dispatch surcharge.
+  - **Fulfillment SLA (Hours)**: Estimated arrival timeframe (e.g. *2 hours*).
+  - **Merchant Notes**: Description of produce sourcing and packaging quality.
+- **Submission**: Bids are immediately attached to the shopper's demand basket for ML price benchmark comparison.
+
+---
+
+### 2.4 The Active Orders View with Escrow Locked Status
+Once the shopper accepts the bid and locks MoMo escrow, the order appears in the merchant's **Active Orders** tab.
+
+![Figure 2.4: The Active Orders view with escrow locked status](images/12_merchant_active_orders_escrow.png)
+
+- **Guaranteed Settlement Notice**: Confirms funds are safely locked in platform escrow, eliminating cash-on-delivery default risk.
+- **Fulfillment Controls**:
+  - **Dispatch Order (In-Transit)**: Alerts the shopper that goods are packed and en route.
+  - **Mark Delivered**: Notifies the shopper to conduct their doorstep inspection.
+- **Real-Time Settlement Status**: Payout balance is automatically credited as soon as the shopper checks off the inspection checklist.
+
+---
+
+# Part 3: The Platform Admin & Escrow Auditor Guide
+
+---
+
+### 3.1 The KPI Dashboard with the 4 Metric Cards
+Logging in as **Prof. Boateng (Escrow Auditor & Operations)** opens the **Admin Operations Console**.
+
+![Figure 3.1: The KPI Dashboard with the 4 metric cards](images/13_admin_kpi_dashboard.png)
+
+- **4 Core Financial KPI Metric Cards**:
+  1. **Locked Escrow Vault Balance (GH₵)**: Active principal currently held in transit awaiting delivery verification.
+  2. **Platform Fee Revenue (2%) (GH₵)**: Cumulative 2.0% transaction fee revenue captured upon Phase 2 commit.
+  3. **Disbursed Store Payouts (GH₵)**: Total gross settlements delivered to verified market vendors.
+  4. **Dispute Refunds (GH₵)**: Total capital successfully reversed to shoppers via compensating rollback sagas.
+- **Live Safe Pay Vault Ticker**: Persistent header balance indicator reflecting aggregate escrow liquidity.
+
+---
+
+### 3.2 The Cryptographic Audit Ledger (SHA-256 Hashes)
+Selecting the **Audit Ledger** tab displays the non-repudiation security audit trail.
+
+![Figure 3.2: The Cryptographic Audit Ledger showing SHA-256 hashes](images/14_admin_audit_ledger_sha256.png)
+
+- **Immutable Transaction Records**: Every financial state transition logs:
+  - Precise UTC Timestamp
+  - Internal Order & Transaction ID
+  - Actor Name & Role (`shopper`, `store`, `admin`)
+  - State Transition Path (`PENDING` $\to$ `LOCKED` $\to$ `IN_TRANSIT` $\to$ `DELIVERED` $\to$ `RELEASED` / `REFUNDED`)
+  - 64-character SHA-256 Security Signature
+
+---
+
+### 3.3 The Dispute Arbitration Panel
+Selecting the **Dispute Arbitration** tab opens the customer refund and mediation interface.
+
+![Figure 3.3: The Dispute Arbitration panel](images/15_admin_dispute_arbitration.png)
+
+- **Dispute Resolution Flow**:
+  - Review customer complaint reasons (e.g. *Crushed tomatoes*, *Spoiled yams*, *Late delivery*).
+  - Inspect merchant delivery notes and timestamps.
+  - **Execute 100% Compensating Refund**: Instantly reverses the entire escrow deposit back to the customer's Mobile Money wallet, cancelling the order in the database and updating the audit ledger.
+  - **Force Release Payout**: Resolves false customer claims and settles the merchant.
+
+---
+
+### 3.4 The Store KYC Verification Queue
+Selecting the **Store KYC Queue** tab displays vendor accreditation and compliance management.
+
+![Figure 3.4: The Store KYC Queue](images/16_admin_store_kyc_queue.png)
+
+- **Ghana Card Verification**: Validates open-air market vendors against registered Ghana Card IDs (`GHA-XXXXXXXXX-X`) and physical market stall hub registrations.
+- **Actions**: Approve new vendors, flag suspicious accounts, or suspend non-compliant market stores.
+
+---
+
+## 4. Test Persona Credentials & Reference Table
+
+| Persona Role | Full Name | Primary Email | Neighborhood / Market | MoMo Network & Number | Key Capabilities Tested |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Shopper** *(Primary)* | **Kofi Mensah** | `shopper.kofi@ug.edu.gh` | East Legon, Accra | MTN MoMo (`0244123456`) | Create demand list (*Olonka, Tubers*), review ML benchmark, lock escrow, doorstep inspection. |
+| **Shopper** *(Secondary)* | **Ama Serwaa** | `shopper.ama@gmail.com` | Madina, Accra | Telecel Cash (`0501987654`) | Post fast request, test multi-item basket, submit dispute refund. |
+| **Store Merchant** *(Makola)* | **Auntie Naa Baskets** | `makola.fresh@gmail.com` | Makola Market Hub | MTN MoMo (`0249876543`) | Filter Makola requests, submit wholesale bids, dispatch orders, receive wallet payout. |
+| **Store Merchant** *(Kaneshie)*| **Uncle Joe Coldstore**| `kaneshie.mart@gmail.com`| Kaneshie Market Hub | AT Money (`0265551234`) | Place competitive bids, view locked escrow guarantee, manage dispatch. |
+| **Escrow Auditor / Admin** | **Prof. Boateng** | `admin.escrow@errandghana.ug.edu.gh` | Legon / Airport Res. | Platform Multi-Sig Vault | Supervise Safe Pay vault, arbitrate disputes, audit SHA-256 ledger, verify KYC. |
+
+---
+
+## 5. Verification & Live Deployment Links
+- **Live Production URL**: [https://errand-ghana.vercel.app](https://errand-ghana.vercel.app)
+- **GitHub Source Repository**: [https://github.com/Theo-Dorh/Errand-Ghana](https://github.com/Theo-Dorh/Errand-Ghana)
+- **Supabase Cloud Database**: `https://pwwhrlvhmbgwwsateruc.supabase.co`
