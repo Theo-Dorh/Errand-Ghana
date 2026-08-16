@@ -263,15 +263,15 @@ Selecting the **Store KYC Queue** tab displays vendor accreditation and complian
 
 | Persona Role | Full Name | Primary Email | Neighborhood / Market | MoMo Network & Number | Key Capabilities Tested |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Shopper** *(Primary)* | **Kofi Mensah** | `shopper.kofi@ug.edu.gh` | East Legon, Accra | MTN MoMo (`0244123456`) | Create demand list (*Olonka, Tubers*), review ML benchmark, lock escrow, doorstep inspection. |
+| **Shopper** *(Primary)* | **Kofi Mensah** | `shopper.kofi@gmail.com` | East Legon, Accra | MTN MoMo (`0244123456`) | Create demand list (*Olonka, Tubers*), review ML benchmark, lock escrow, doorstep inspection. |
 | **Shopper** *(Secondary)* | **Ama Serwaa** | `shopper.ama@gmail.com` | Madina, Accra | Telecel Cash (`0501987654`) | Post fast request, test multi-item basket, submit dispute refund. |
 | **Store Merchant** *(Makola)* | **Auntie Naa Baskets** | `makola.fresh@gmail.com` | Makola Market Hub | MTN MoMo (`0249876543`) | Filter Makola requests, submit wholesale bids, dispatch orders, receive wallet payout. |
 | **Store Merchant** *(Kaneshie)*| **Uncle Joe Coldstore**| `kaneshie.mart@gmail.com`| Kaneshie Market Hub | AT Money (`0265551234`) | Place competitive bids, view locked escrow guarantee, manage dispatch. |
-| **Escrow Auditor / Admin** | **Prof. Boateng** | `admin.escrow@errandghana.ug.edu.gh` | Legon / Airport Res. | Platform Multi-Sig Vault | Supervise Safe Pay vault, arbitrate disputes, audit SHA-256 ledger, verify KYC. |
+| **Escrow Auditor / Admin** | **Prof. Boateng** | `admin@errandghana.com` | Legon / Airport Res. | Platform Multi-Sig Vault | Supervise Safe Pay vault, arbitrate disputes, audit SHA-256 ledger, verify KYC. |
 
 ---
 
 ## 5. Verification & Live Deployment Links
 - **Live Production URL**: [https://errand-ghana.vercel.app](https://errand-ghana.vercel.app)
 - **GitHub Source Repository**: [https://github.com/Theo-Dorh/Errand-Ghana](https://github.com/Theo-Dorh/Errand-Ghana)
-- **Supabase Cloud Database**: `https://pwwhrlvhmbgwwsateruc.supabase.co`
+- **Supabase Cloud Database**: `[https://mqpyyixrvoedgqttlvpn.supabase.co]`
